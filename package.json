@@ -1,0 +1,30 @@
+{
+  "name": "viewer-theme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "slate watch",
+    "dev": "slate start --env development",
+    "start:prod": "slate start --env production",
+    "deploy:dev": "slate deploy --env development",
+    "deploy:prod": "slate deploy --env production",
+    "build": "slate build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@shopify/slate": "^0.14.0",
+    "jquery": "^3.4.1",
+    "lodash-es": "^4.17.15",
+    "normalize.css": "^8.0.1",
+    "qrcode": "^1.4.1"
+  },
+  "devDependencies": {
+    "@shopify/slate-tools": "0.14.0",
+    "babel-preset-shopify": "^20.0.0",
+    "eslint-plugin-shopify": "^30.0.1",
+    "stylelint-config-prettier": "^5.2.0",
+    "stylelint-config-shopify": "^7.2.1"
+  }
+}
