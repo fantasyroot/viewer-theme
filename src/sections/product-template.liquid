@@ -87,7 +87,32 @@
               <li id="ch-anchor-desp">Description</li>
               <li id="ch-anchor-dimension">Dimensions</li>
           </ol>
-          <div id="ch-target-gallery" class="ch-carousel"></div>
+          <div id="ch-target-gallery" class="ch-carousel">
+            <div class="ch-slider-for">
+                {% for image in product.images %}
+                <div class="ch-slider-big" style="background-image: url('{{ image.src | img_url: 'master' }}')">
+                    {% comment %} <a href="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"
+                    class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
+                    data-thumbnail-id="{{ image.id }}"
+                    {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
+                    </a> {% endcomment %}
+                    {% comment %} <img src="{{ image.src | img_url: '110x110', scale: 2 }}" alt="{{ 'sections.featured_product.gallery_thumbnail_alt' | t: imageAlt: image.alt | escape }}"> {% endcomment %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="ch-slider-nav">
+                {% for image in product.images %}
+                <div class="ch-slider-preview" style="background-image: url('{{ image.src | img_url: 'master' }}')">
+                    {% comment %} <a href="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"
+                    class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
+                    data-thumbnail-id="{{ image.id }}"
+                    {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
+                    </a> {% endcomment %}
+                    {% comment %} <img src="{{ image.src | img_url: '110x110', scale: 2 }}" alt="{{ 'sections.featured_product.gallery_thumbnail_alt' | t: imageAlt: image.alt | escape }}"> {% endcomment %}
+                </div>
+                {% endfor %}
+            </div>
+          </div>
           <div id="ch-target-desp" class="ch-description">
               <h1 class="ch-detail__h1">
                   description
