@@ -448,7 +448,7 @@ function bindScroll() {
         this.document.getElementById(anchor).onclick = function () {
             const el = document.getElementById(target);
             window.scrollTo({
-                top: el.getBoundingClientRect().top,
+                top: el.getBoundingClientRect().top + window.scrollY,
                 behavior: 'smooth',
             });
         }
