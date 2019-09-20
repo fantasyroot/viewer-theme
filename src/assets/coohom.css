@@ -323,7 +323,6 @@
 }
 
 .ch-carousel {
-    height: 600px;
     background: #f7f7f7;
 }
 
@@ -358,6 +357,7 @@
     height: 675px;
     background-repeat: no-repeat;
     background-position: center;
+    margin-bottom: 24px;
 }
 
 .ch-slider-preview {
@@ -365,6 +365,11 @@
     height: 207px;
     background-repeat: no-repeat;
     background-position: center;
+    margin-right: 24px;
+}
+
+.ch-slider-preview:last-child {
+    margin-right: 0;
 }
 
 @media screen and (max-width: 749px) {
