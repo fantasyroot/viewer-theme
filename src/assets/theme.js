@@ -3864,24 +3864,34 @@ $(document).ready(function() {
   sections.register('quotes', theme.Quotes);
   sections.register('hero-section', theme.HeroSection);
 
-
-  // 初始化轮播图
-    $('.ch-slider-for').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: false,
-        fade: true,
-        asNavFor: '.ch-slider-nav'
-    });
-    $('.ch-slider-nav').slick({
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        asNavFor: '.ch-slider-for',
-        dots: true,
-        centerMode: true,
-        focusOnSelect: true,
-        infinite: false,
-    });
+  const mobileSize = 749;
+    // 初始化轮播图
+    if (window.width > mobileSize) {
+        $('.ch-slider-for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            fade: true,
+            asNavFor: '.ch-slider-nav',
+            infinite: false,
+            touchMove: true,
+        });
+        $('.ch-slider-nav').slick({
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            asNavFor: '.ch-slider-for',
+            centerMode: true,
+            focusOnSelect: true,
+            infinite: false,
+            touchMove: true,
+        });
+    } else {
+        $('.ch-slider-for').slick({
+            dots: true,
+            arrows: false,
+            dotsClass: 'ch-slider-dots',
+        });
+    }
 });
 
 theme.init = function() {
