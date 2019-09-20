@@ -1,10 +1,6 @@
 
-.ch-viewer {
-    max-width: 740px;
-}
-
 .ch-viewer__preview {
-    height: 420px;
+    height: 470px;
     background: #f7f7f7;
 }
 
@@ -288,6 +284,7 @@
 }
 
 .ch-viewer {
+    box-sizing: border-box;
     max-width: 740px;
     flex: 1 1;
     margin-right: 80px;
@@ -410,6 +407,7 @@
     background-position: center;
     background-size: contain;
     margin-bottom: 24px;
+    outline: none;
 }
 
 .ch-slider__right-arrow {
@@ -454,6 +452,14 @@
 
 .ch-slider-dots li button {
     font-size: 0px;
+}
+
+.ch-price__sale-wrapper {
+    margin-top: 22px;
+}
+
+.ch-price__sale {
+    color: #1a7afb;
 }
 
 @media screen and (max-width: 749px) {
@@ -505,5 +511,9 @@
 
     .ch-viewer__direction {
         height: 70px;
+    }
+
+    .ch-viewer__preview {
+        height: 302px;
     }
 }

@@ -3866,7 +3866,7 @@ $(document).ready(function() {
 
   const mobileSize = 749;
     // 初始化轮播图
-    if (window.width > mobileSize) {
+    if (window.innerWidth > mobileSize) {
         $('.ch-slider-for').slick({
             slidesToShow: 1,
             slidesToScroll: 1,
@@ -3875,6 +3875,7 @@ $(document).ready(function() {
             asNavFor: '.ch-slider-nav',
             infinite: false,
             touchMove: true,
+            dots: false,
         });
         $('.ch-slider-nav').slick({
             slidesToShow: 3,
@@ -3884,6 +3885,7 @@ $(document).ready(function() {
             focusOnSelect: true,
             infinite: false,
             touchMove: true,
+            dots: false,
         });
     } else {
         $('.ch-slider-for').slick({
