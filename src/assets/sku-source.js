@@ -56,7 +56,7 @@ var ViewerProduct = /** @class */ (function () {
             _this.viewer = window.viewer = new lucy.ViewerSDK({
                 mount: document.getElementById('lucy-viewer'),
                 modelId: _this.brandGoodId,
-                defaultZoomScale: 0.3,
+                defaultZoomScale: 0.49,
             });
             _this.viewer.start();
         };
