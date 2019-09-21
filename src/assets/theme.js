@@ -3863,6 +3863,7 @@ $(document).ready(function() {
   sections.register('video-section', theme.VideoSection);
   sections.register('quotes', theme.Quotes);
   sections.register('hero-section', theme.HeroSection);
+  sections.register('product-recommendations', theme.ProductRecommendations);
 
   const mobileSize = 749;
     // 初始化轮播图
@@ -3943,3 +3944,15 @@ theme.init = function() {
 };
 
 $(theme.init);
+
+theme.ProductRecommendations = (function () {
+    function ProductRecommendations(container) {
+        var $container = (this.$container = $(container));
+        var productId = $container.data('productId');
+        var limit = $container.data('limit');
+        var productRecommendationsUrlAndContainerClass =
+            '/recommendations/products?&section_id=product-recommendations&limit=' + limit + '&product_id=' + productId + ' .product-recommendations';
+        $container.parent().load(productRecommendationsUrlAndContainerClass);
+    }
+    return ProductRecommendations;
+})();

@@ -7068,3 +7068,48 @@ $transition-controls-video: color 0.2s $ease-transition, background-color 0.2s $
   top: 0;
   z-index: 2;
   }
+
+    .product-recommendations {
+    padding-top: $section-spacing-small;
+    padding-bottom: $section-spacing-small;
+
+    @include media-query($medium-up) {
+      padding-top: $section-spacing;
+      padding-bottom: $section-spacing;
+    }
+  }
+  .product-recommendations__loading-dots {
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .product-recommendations__loading-dot {
+    animation: dot-keyframes 1.5s infinite ease-in-out;
+    background-color: $color-text;
+    border-radius: 10px;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    margin: 0 3px;
+    &:nth-child(2) {
+      animation-delay: .5s;
+    }
+    &:nth-child(3) {
+      animation-delay: 1s;
+    }
+  }
+  @keyframes dot-keyframes {
+    0% {
+      opacity: .4;
+      transform: scale(1, 1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2, 1.2);
+    }
+    100% {
+      opacity: .4;
+      transform: scale(1, 1);
+    }
+  }

@@ -187,12 +187,12 @@ TextureList.prototype.render = function () {
 
 TextureList.prototype.selectFirst = function () {
     for (const row of this.list) {
-        this.selectItem(row.data[0], row);
+        this.selectItem(row.data[0], row, true);
     }
 }
 
-TextureList.prototype.selectItem = function (d, textureRow) {
-    this.option.onSelect(d);
+TextureList.prototype.selectItem = function (d, textureRow, isInitial) {
+    this.option.onSelect(d, isInitial);
 
     for (const n of textureRow.nodes) {
         if (n.data === d) {
@@ -259,11 +259,11 @@ PartList.prototype.render = function () {
 }
 
 PartList.prototype.selectFirst = function () {
-    this.selectItem(this.list[0]);
+    this.selectItem(this.list[0], true);
 }
 
-PartList.prototype.selectItem = function (d) {
-    this.option.onSelect(d);
+PartList.prototype.selectItem = function (d, isInitial) {
+    this.option.onSelect(d, isInitial);
 
     for (const n of this.nodes) {
         if (n.data === d) {
@@ -322,11 +322,11 @@ SizeList.prototype.render = function () {
 }
 
 SizeList.prototype.selectFirst = function () {
-    this.selectItem(this.list[0]);
+    this.selectItem(this.list[0], true);
 }
 
-SizeList.prototype.selectItem = function (d) {
-    this.option.onSelect(d);
+SizeList.prototype.selectItem = function (d, isInitial) {
+    this.option.onSelect(d, isInitial);
 
     for (const n of this.nodes) {
         if (n.data === d) {
