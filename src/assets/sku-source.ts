@@ -177,6 +177,8 @@ class ViewerProduct implements ViewProductInterface {
 
     getDefaultProductInfoBySku = (sku: String) => {
         const brandGood: Sku = this.coohomProduct.skus.filter(item => item.sku === sku)[0];
+        const optionsData = this.coohomProduct['options-data'];
+        const options = Object.keys(optionsData);
         const texture = brandGood.Texture.map((item, index) => {
             return {
                 position: `1_${index + 1}_1`,
@@ -184,15 +186,19 @@ class ViewerProduct implements ViewProductInterface {
                 ...item
             }
         });
-        const size = {
-            position: '3_1',
-            name: brandGood.Size
-        };
-
-        const part = {
-            position: '2_1',
-            name: brandGood.Part
-        };
+        let size, part;
+        if (options.includes('Size')) {
+            size = {
+                position: '3_1',
+                name: brandGood.Size
+            };
+        }
+        if (options.includes('Part')) {
+            part = {
+                position: '2_1',
+                name: brandGood.Part
+            };
+        }
         return {
             brandGoodId: brandGood.obsBrandGoodId,
             size,
@@ -378,11 +384,13 @@ class ViewerProduct implements ViewProductInterface {
 
     generateSku = () => {
         const { texture, size, part } = this;
-        const skuQuery = [texture.map(item => item.position).join('-'), part.position, size.position].join('-');
+        const skuQuery = texture.map(item => item.position).join('-') + (part ? `-${part.position}`: '') + (size ? `-${size.position}` : '');
         this.sku = this.coohomProduct.skuIndex[skuQuery];
-        const productInfo = (window as any).productInfo;
-        const variant = productInfo.variants.filter(item => item.sku === this.sku )[0];
-        window.__VIEWER_INIT__.variant._onSelectChange(variant)
+        if (this.sku) {
+            const productInfo = (window as any).productInfo;
+            const variant = productInfo.variants.filter(item => item.sku === this.sku )[0];
+            (window as any).__VIEWER_INIT__.variant._onSelectChange(variant)
+        }
     }
 }
 

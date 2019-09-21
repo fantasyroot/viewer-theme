@@ -68,17 +68,24 @@ var ViewerProduct = /** @class */ (function () {
         };
         this.getDefaultProductInfoBySku = function (sku) {
             var brandGood = _this.coohomProduct.skus.filter(function (item) { return item.sku === sku; })[0];
+            var optionsData = _this.coohomProduct['options-data'];
+            var options = Object.keys(optionsData);
             var texture = brandGood.Texture.map(function (item, index) {
                 return __assign({ position: "1_" + (index + 1) + "_1", componentName: _this.coohomProduct['options-data'].Texture[index].title }, item);
             });
-            var size = {
-                position: '3_1',
-                name: brandGood.Size
-            };
-            var part = {
-                position: '2_1',
-                name: brandGood.Part
-            };
+            var size, part;
+            if (options.includes('Size')) {
+                size = {
+                    position: '3_1',
+                    name: brandGood.Size
+                };
+            }
+            if (options.includes('Part')) {
+                part = {
+                    position: '2_1',
+                    name: brandGood.Part
+                };
+            }
             return {
                 brandGoodId: brandGood.obsBrandGoodId,
                 size: size,
@@ -237,11 +244,13 @@ var ViewerProduct = /** @class */ (function () {
         };
         this.generateSku = function () {
             var _a = _this, texture = _a.texture, size = _a.size, part = _a.part;
-            var skuQuery = [texture.map(function (item) { return item.position; }).join('-'), part.position, size.position].join('-');
+            var skuQuery = texture.map(function (item) { return item.position; }).join('-') + (part ? "-" + part.position : '') + (size ? "-" + size.position : '');
             _this.sku = _this.coohomProduct.skuIndex[skuQuery];
-            var productInfo = window.productInfo;
-            var variant = productInfo.variants.filter(function (item) { return item.sku === _this.sku; })[0];
-            window.__VIEWER_INIT__.variant._onSelectChange(variant);
+            if (_this.sku) {
+                var productInfo = window.productInfo;
+                var variant = productInfo.variants.filter(function (item) { return item.sku === _this.sku; })[0];
+                window.__VIEWER_INIT__.variant._onSelectChange(variant);
+            }
         };
         this.productId = options.productId;
         this.init();
