@@ -473,19 +473,14 @@ function initViewSelector() {
             selector.style.display = 'block';
             selector.style.transform = 'translate(' + left + 'px, 0)';
 
-            // TODO: 视角点击 @yiqiao
             if (el.classList.contains('ch-viewer__front')) {
-                // TODO: 正视图点击
-                console.log('front');
+                window.viewer && window.viewer.setCameraView('front');
             } else if (el.classList.contains('ch-viewer__top')) {
-                // TODO: 顶视图点击
-                console.log('top');
+                window.viewer && window.viewer.setCameraView('top');
             } else if (el.classList.contains('ch-viewer__side')) {
-                // TODO: 45度角点击
-                console.log('45deg');
+                window.viewer && window.viewer.setCameraView('product');
             } else if (el.classList.contains('ch-viewer__left')) {
-                // TODO: 侧视图点击
-                console.log('left');
+                window.viewer && window.viewer.setCameraView('left');
             }
         }
     })

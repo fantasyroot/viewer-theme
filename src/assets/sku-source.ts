@@ -177,11 +177,6 @@ class ViewerProduct implements ViewProductInterface {
         });
 
         this.viewer.start();
-
-        document.querySelectorAll('.ch-viewer__fullpage')[0].addEventListener('click', function() {
-            (window as any).viewer.setScreen(true);
-            (window as any).viewer.setAutoRotate(true);
-        });
     };
 
     initSubmitForm = () => {

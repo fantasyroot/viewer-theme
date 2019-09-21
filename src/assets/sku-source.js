@@ -63,10 +63,6 @@ var ViewerProduct = /** @class */ (function () {
                 defaultZoomScale: 0.3,
             });
             _this.viewer.start();
-            document.querySelectorAll('.ch-viewer__fullpage')[0].addEventListener('click', function () {
-                window.viewer.setScreen(true);
-                window.viewer.setAutoRotate(true);
-            });
         };
         this.initSubmitForm = function () {
             var Sku = window.Sku;
