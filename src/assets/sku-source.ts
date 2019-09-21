@@ -7,6 +7,7 @@ interface TextureData {
     name: String;
     img: String;
     materialId: String;
+    componentName: String;
 }
 
 interface Part {
@@ -185,8 +186,10 @@ class ViewerProduct implements ViewProductInterface {
             texture: this.getUIViewTexture()
         }, {
             el: document.getElementById('sku'),
-            onTextureSelect: function (texutre) {
-                console.log('texture', texutre);
+            onTextureSelect: (texutre: TextureData) => {
+                const { componentName, materialId  } = texutre;
+                const componentId = this.getComponentIdByComponentName(componentName);
+                this.viewer.changeMaterial(componentId, materialId)
             },
             onPartSelect: function (part) {
                 console.log('part', part);
@@ -209,7 +212,8 @@ class ViewerProduct implements ViewProductInterface {
                         return {
                             name: seletedMaterial.name,
                             img: seletedMaterial.thumbnail,
-                            materialId: seletedMaterial.id
+                            materialId: seletedMaterial.id,
+                            componentName: optionsDataTexture.title
                         }
                     }
                     return;
@@ -224,6 +228,13 @@ class ViewerProduct implements ViewProductInterface {
 
     getUIViewTexture = (): Texture[] => {
         return this.uiViewData.textures;
+    };
+
+    getComponentIdByComponentName = (componentName: String) => {
+        const bgid = this.brandGoodId;
+        const brandGood = this.coohomProduct.brandGoods.filter(item => item.obsBrandGoodId === bgid)[0];
+        const component = brandGood.components.filter(item => item.name === componentName)[0];
+        return component && component.id;
     };
 }
 
