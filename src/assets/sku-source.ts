@@ -203,7 +203,7 @@ class ViewerProduct implements ViewProductInterface {
         return data.map(optionsDataTexture => {
             return {
                 title: optionsDataTexture.title,
-                data: optionsDataTexture.data.map(item => {
+                data: optionsDataTexture.data.map(name => {
                     const seletedMaterial = materials.filter(item => item.name === name)[0];
                     if (seletedMaterial) {
                         return {

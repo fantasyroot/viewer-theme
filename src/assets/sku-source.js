@@ -87,7 +87,7 @@ var ViewerProduct = /** @class */ (function () {
             return data.map(function (optionsDataTexture) {
                 return {
                     title: optionsDataTexture.title,
-                    data: optionsDataTexture.data.map(function (item) {
+                    data: optionsDataTexture.data.map(function (name) {
                         var seletedMaterial = materials.filter(function (item) { return item.name === name; })[0];
                         if (seletedMaterial) {
                             return {
