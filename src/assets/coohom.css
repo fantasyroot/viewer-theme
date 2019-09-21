@@ -32,6 +32,7 @@
     letter-spacing: normal;
     text-align: center;
     color: #9b9b9b;
+    cursor: pointer;
 }
 
 .ch-viewer__arrow {

@@ -492,9 +492,7 @@ function initViewSelector() {
 
     document.querySelector('.ch-viewer__sign').onclick = function () {
         selector.style.display = 'none';
-
-        // TODO: viewer auto rotate @yiqiao
-        console.log('auto rotate');
+        window.viewer && window.viewer.setAutoRotate(true);
     }
 }
 
