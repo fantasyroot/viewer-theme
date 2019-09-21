@@ -1,23 +1,28 @@
 interface Texture {
     title: String;
-    data: TextureData[]
+    data: TextureData[];
+    position?: String;
 }
 
 interface TextureData {
-    name: String;
-    img: String;
+    name?: String;
+    img?: String;
     materialId: String;
-    componentName: String;
+    componentName?: String;
+    position?: String;
+    componentId?: String;
 }
 
 interface Part {
     name: String;
-    img: String;
+    img?: String;
+    position?: String;
 }
 
 interface Size {
     name: String;
-    img: String;
+    img?: String;
+    position?: String;
 }
 
 interface UIViewData {
@@ -120,8 +125,8 @@ class ViewerProduct implements ViewProductInterface {
     sku: String;
     uiViewData: UIViewData;
     viewer: any;
-    size: String;
-    part: String;
+    size?: Size;
+    part?: Part;
     texture: TextureData[] = [];
     isInitialized: boolean = false;
 
@@ -140,10 +145,11 @@ class ViewerProduct implements ViewProductInterface {
                 // 获取当前sku
                 this.sku = (window as any).__VIEWER_INIT__.current.sku;
                 // 获取当前brandgoodid
-                const { brandGoodId, size, part } = this.getDefaultProductInfoBySku(this.sku);
+                const { brandGoodId, size, part, texture } = this.getDefaultProductInfoBySku(this.sku);
                 this.brandGoodId = brandGoodId;
                 this.size = size;
                 this.part = part;
+                this.texture = texture;
                 // 初始化viewer
                 this.initViewer();
             })
@@ -171,10 +177,27 @@ class ViewerProduct implements ViewProductInterface {
 
     getDefaultProductInfoBySku = (sku: String) => {
         const brandGood: Sku = this.coohomProduct.skus.filter(item => item.sku === sku)[0];
+        const texture = brandGood.Texture.map((item, index) => {
+            return {
+                position: `1_${index + 1}_1`,
+                componentName: this.coohomProduct['options-data'].Texture[index].title,
+                ...item
+            }
+        });
+        const size = {
+            position: '3_1',
+            name: brandGood.Size
+        };
+
+        const part = {
+            position: '2_1',
+            name: brandGood.Part
+        };
         return {
             brandGoodId: brandGood.obsBrandGoodId,
-            size: brandGood.Size,
-            part: brandGood.Part
+            size,
+            part,
+            texture
         }
     };
 
@@ -213,17 +236,14 @@ class ViewerProduct implements ViewProductInterface {
                     return
                 }
                 this.changeMaterial(texture);
-                let isChanged: boolean = false;
                 for(let i = 0; i < this.texture.length; i++) {
                     if (this.texture[i].componentName === texture.componentName) {
                         this.texture[i] = texture;
-                        isChanged = true
                     }
                 }
-
-                if (!isChanged) {
-                    this.texture.push(texture)
-                }
+                console.log(texture);
+                console.log(this.texture);
+                this.generateSku();
             },
             onPartSelect: (part: {
                 name: String,
@@ -240,7 +260,8 @@ class ViewerProduct implements ViewProductInterface {
                         this.changeMaterial(item)
                     })
                 });
-                this.part = part.name
+                this.part = part;
+                this.generateSku();
             },
             onSizeSelect: (size: {
                 name: String,
@@ -257,7 +278,8 @@ class ViewerProduct implements ViewProductInterface {
                         this.changeMaterial(item)
                     })
                 });
-                this.size = size.name
+                this.size = size;
+                this.generateSku();
             },
         })
     };
@@ -270,17 +292,19 @@ class ViewerProduct implements ViewProductInterface {
     generateTextureData = (items: OptionsDataTexture[]): Texture[] => {
         const data = items;
         const materials = this.coohomProduct.brandGoods[0].materials;
-        return data.map(optionsDataTexture => {
+        return data.map((optionsDataTexture, index) => {
             return {
                 title: optionsDataTexture.title,
-                data: optionsDataTexture.data.map(name => {
+                position: `1_${index + 1}`,
+                data: optionsDataTexture.data.map((name, index2) => {
                     const seletedMaterial = materials.filter(item => item.name === name)[0];
                     if (seletedMaterial) {
                         return {
                             name: seletedMaterial.name,
                             img: seletedMaterial.thumbnail,
                             materialId: seletedMaterial.id,
-                            componentName: optionsDataTexture.title
+                            componentName: optionsDataTexture.title,
+                            position: `1_${index + 1}_${index2 + 1}`
                         }
                     }
                     return;
@@ -290,19 +314,21 @@ class ViewerProduct implements ViewProductInterface {
     };
 
     generatePartData = (parts: OptionsDataTexture[]): Part[] => {
-        return parts.map(part => {
+        return parts.map((part, index) => {
             return {
                 name: part.title,
-                img: part.image
+                img: part.image,
+                position: `2_${index + 1}`
             }
         })
     };
 
     generateSizeData = (sizes: OptionsDataTexture[]): Size[] => {
-        return sizes.map(size => {
+        return sizes.map((size, index) => {
             return {
                 name: size.title,
-                img: size.image
+                img: size.image,
+                position: `3_${index + 1}`
             }
         })
     };
@@ -328,8 +354,8 @@ class ViewerProduct implements ViewProductInterface {
         part?: String;
     }) => {
         const currentInfo = {
-            size: this.size,
-            part: this.part
+            size: this.size.name,
+            part: this.part.name
         };
         const targetInfo = Object.assign({}, currentInfo, opt);
         const targetBrandGood = this.coohomProduct.brandGoods.filter(item => (item.Size === targetInfo.size) && (item.Part === targetInfo.part))
@@ -347,6 +373,14 @@ class ViewerProduct implements ViewProductInterface {
         const { componentName, materialId } = texutre;
         const componentId = this.getComponentIdByComponentName(componentName);
         this.viewer.changeMaterial(componentId, materialId);
+    };
+
+    generateSku = () => {
+        const { texture, size, part } = this;
+        const skuQuery = [texture.map(item => item.position).join('-'), part.position, size.position].join('-');
+        const sku = this.coohomProduct.skuIndex[skuQuery];
+        this.sku = sku;
+        return sku;
     }
 }
 
