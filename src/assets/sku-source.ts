@@ -194,6 +194,7 @@ class ViewerProduct implements ViewProductInterface {
             mount: document.getElementById('lucy-viewer'),
             modelId: this.brandGoodId,
             defaultZoomScale: 0.49,
+            brightness: 1.5,
             envRotation: 2.5
         });
 
