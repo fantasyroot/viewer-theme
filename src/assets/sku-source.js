@@ -25,7 +25,10 @@ var ViewerProduct = /** @class */ (function () {
                 // 获取当前sku
                 _this.sku = window.__VIEWER_INIT__.current.sku;
                 // 获取当前brandgoodid
-                _this.brandGoodId = _this.getBrandGoodIdBySku(_this.sku);
+                var _a = _this.getDefaultProductInfoBySku(_this.sku), brandGoodId = _a.brandGoodId, size = _a.size, part = _a.part;
+                _this.brandGoodId = brandGoodId;
+                _this.size = size;
+                _this.part = part;
                 // 初始化viewer
                 _this.initViewer();
             })
@@ -37,8 +40,11 @@ var ViewerProduct = /** @class */ (function () {
                     textures: []
                 };
                 _this.uiViewData.textures = _this.generateTextureData(optionsData.Texture);
-                if (options.includes('Part')) {
+                if (options.includes('Part') && optionsData.Part) {
                     _this.uiViewData.parts = _this.generatePartData(optionsData.Part);
+                }
+                if (options.includes('Size') && optionsData.Part) {
+                    _this.uiViewData.sizes = _this.generateSizeData(optionsData.Size);
                 }
             })
                 .then(function (_) {
@@ -51,8 +57,13 @@ var ViewerProduct = /** @class */ (function () {
             _this.brandGoodId = brandGoodId;
             _this.viewer.changeModel(brandGoodId);
         };
-        this.getBrandGoodIdBySku = function (sku) {
-            return _this.coohomProduct.skus.filter(function (item) { return item.sku === sku; })[0].obsBrandGoodId;
+        this.getDefaultProductInfoBySku = function (sku) {
+            var brandGood = _this.coohomProduct.skus.filter(function (item) { return item.sku === sku; })[0];
+            return {
+                brandGoodId: brandGood.obsBrandGoodId,
+                size: brandGood.Size,
+                part: brandGood.Part
+            };
         };
         this.getSku = function () {
             return _this.sku;
@@ -73,7 +84,9 @@ var ViewerProduct = /** @class */ (function () {
         this.initSubmitForm = function () {
             var Sku = window.Sku;
             new Sku({
-                texture: _this.getUIViewTexture()
+                texture: _this.getUIViewTexture(),
+                part: _this.getUIViewPart(),
+                size: _this.getUIViewSize()
             }, {
                 el: document.getElementById('sku'),
                 onTextureSelect: function (texutre) {
@@ -108,13 +121,33 @@ var ViewerProduct = /** @class */ (function () {
                 };
             });
         };
-        this.generatePartData = function (items) {
+        this.generatePartData = function (parts) {
+            return parts.map(function (part) {
+                return {
+                    name: part.title,
+                    img: part.image
+                };
+            });
+        };
+        this.generateSizeData = function (sizes) {
+            return sizes.map(function (size) {
+                return {
+                    name: size.title,
+                    img: size.image
+                };
+            });
         };
         this.getUIViewData = function () {
             return _this.uiViewData;
         };
         this.getUIViewTexture = function () {
             return _this.uiViewData.textures;
+        };
+        this.getUIViewPart = function () {
+            return _this.uiViewData.parts;
+        };
+        this.getUIViewSize = function () {
+            return _this.uiViewData.sizes;
         };
         this.getComponentIdByComponentName = function (componentName) {
             var bgid = _this.brandGoodId;

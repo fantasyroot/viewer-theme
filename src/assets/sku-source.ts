@@ -11,14 +11,13 @@ interface TextureData {
 }
 
 interface Part {
-    brandGoodsId: String;
     name: String;
     img: String;
 }
 
 interface Size {
-    brandGoodsId: String;
     name: String;
+    img: String;
 }
 
 interface UIViewData {
@@ -40,7 +39,9 @@ interface Sku {
     Texture: {
         materialId: string;
         componentId: string;
-    }[]
+    }[];
+    Part?: String;
+    Size?: String;
 }
 
 interface Component {
@@ -71,12 +72,13 @@ interface BrandGood {
 interface OptionsData {
     Texture: OptionsDataTexture[];
 
-    [key: string]: String[] | OptionsDataTexture[];
+    [key: string]: OptionsDataTexture[];
 }
 
 interface OptionsDataTexture {
     title: String;
-    data: String[];
+    data?: String[];
+    image?: String;
 }
 
 interface CoohomProduct {
@@ -116,6 +118,8 @@ class ViewerProduct implements ViewProductInterface {
     sku: String;
     uiViewData: UIViewData;
     viewer: any;
+    size: String;
+    part: String;
     isInitialized: boolean = false;
 
     constructor(options: ViewProductOptions) {
@@ -133,7 +137,10 @@ class ViewerProduct implements ViewProductInterface {
                 // 获取当前sku
                 this.sku = (window as any).__VIEWER_INIT__.current.sku;
                 // 获取当前brandgoodid
-                this.brandGoodId = this.getBrandGoodIdBySku(this.sku);
+                const { brandGoodId, size, part } = this.getDefaultProductInfoBySku(this.sku);
+                this.brandGoodId = brandGoodId;
+                this.size = size;
+                this.part = part;
                 // 初始化viewer
                 this.initViewer();
             })
@@ -145,8 +152,11 @@ class ViewerProduct implements ViewProductInterface {
                     textures: []
                 };
                 this.uiViewData.textures = this.generateTextureData(optionsData.Texture);
-                if (options.includes('Part')) {
+                if (options.includes('Part') && optionsData.Part) {
                     this.uiViewData.parts = this.generatePartData(optionsData.Part);
+                }
+                if (options.includes('Size') && optionsData.Part) {
+                    this.uiViewData.sizes = this.generateSizeData(optionsData.Size);
                 }
             })
             .then(_ => {
@@ -161,8 +171,13 @@ class ViewerProduct implements ViewProductInterface {
         this.viewer.changeModel(brandGoodId);
     };
 
-    getBrandGoodIdBySku = (sku: String): string => {
-        return this.coohomProduct.skus.filter(item => item.sku === sku)[0].obsBrandGoodId;
+    getDefaultProductInfoBySku = (sku: String) => {
+        const brandGood: Sku = this.coohomProduct.skus.filter(item => item.sku === sku)[0];
+        return {
+            brandGoodId: brandGood.obsBrandGoodId,
+            size: brandGood.Size,
+            part: brandGood.Part
+        }
     };
 
     getSku = () => {
@@ -189,7 +204,9 @@ class ViewerProduct implements ViewProductInterface {
     initSubmitForm = () => {
         const Sku = (window as any).Sku;
         new Sku({
-            texture: this.getUIViewTexture()
+            texture: this.getUIViewTexture(),
+            part: this.getUIViewPart(),
+            size: this.getUIViewSize()
         }, {
             el: document.getElementById('sku'),
             onTextureSelect: (texutre: TextureData) => {
@@ -226,8 +243,22 @@ class ViewerProduct implements ViewProductInterface {
         })
     };
 
-    generatePartData = (items: String[]) => {
-        
+    generatePartData = (parts: OptionsDataTexture[]): Part[] => {
+        return parts.map(part => {
+            return {
+                name: part.title,
+                img: part.image
+            }
+        })
+    };
+
+    generateSizeData = (sizes: OptionsDataTexture[]): Size[] => {
+        return sizes.map(size => {
+            return {
+                name: size.title,
+                img: size.image
+            }
+        })
     };
 
     getUIViewData = (): UIViewData => {
@@ -236,6 +267,14 @@ class ViewerProduct implements ViewProductInterface {
 
     getUIViewTexture = (): Texture[] => {
         return this.uiViewData.textures;
+    };
+
+    getUIViewPart = () => {
+        return this.uiViewData.parts;
+    };
+
+    getUIViewSize = () => {
+        return this.uiViewData.sizes;
     };
 
     getComponentIdByComponentName = (componentName: String) => {
