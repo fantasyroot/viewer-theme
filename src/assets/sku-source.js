@@ -71,7 +71,9 @@ var ViewerProduct = /** @class */ (function () {
             }, {
                 el: document.getElementById('sku'),
                 onTextureSelect: function (texutre) {
-                    console.log('texture', texutre);
+                    var componentName = texutre.componentName, materialId = texutre.materialId;
+                    var componentId = _this.getComponentIdByComponentName(componentName);
+                    _this.viewer.changeMaterial(componentId, materialId);
                 },
                 onPartSelect: function (part) {
                     console.log('part', part);
@@ -87,13 +89,14 @@ var ViewerProduct = /** @class */ (function () {
             return data.map(function (optionsDataTexture) {
                 return {
                     title: optionsDataTexture.title,
-                    data: optionsDataTexture.data.map(function (item) {
+                    data: optionsDataTexture.data.map(function (name) {
                         var seletedMaterial = materials.filter(function (item) { return item.name === name; })[0];
                         if (seletedMaterial) {
                             return {
                                 name: seletedMaterial.name,
                                 img: seletedMaterial.thumbnail,
-                                materialId: seletedMaterial.id
+                                materialId: seletedMaterial.id,
+                                componentName: optionsDataTexture.title
                             };
                         }
                         return;
@@ -106,6 +109,12 @@ var ViewerProduct = /** @class */ (function () {
         };
         this.getUIViewTexture = function () {
             return _this.uiViewData.textures;
+        };
+        this.getComponentIdByComponentName = function (componentName) {
+            var bgid = _this.brandGoodId;
+            var brandGood = _this.coohomProduct.brandGoods.filter(function (item) { return item.obsBrandGoodId === bgid; })[0];
+            var component = brandGood.components.filter(function (item) { return item.name === componentName; })[0];
+            return component && component.id;
         };
         this.productId = options.productId;
         this.init();
