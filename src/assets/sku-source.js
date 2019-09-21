@@ -22,6 +22,7 @@ var ViewerProduct = /** @class */ (function () {
             getProductInfoFromCoohom(_this.productId)
                 .then(function (coohomProduct) { return _this.coohomProduct = coohomProduct; })
                 .then(function (_) {
+                // 获取当前sku
                 _this.sku = window.__VIEWER_INIT__.current.sku;
                 // 获取当前brandgoodid
                 _this.brandGoodId = _this.getBrandGoodIdBySku(_this.sku);
@@ -36,6 +37,9 @@ var ViewerProduct = /** @class */ (function () {
                     textures: []
                 };
                 _this.uiViewData.textures = _this.generateTextureData(optionsData.Texture);
+            })
+                .then(function (_) {
+                _this.initSubmitForm();
             })
                 .then(function (_) { return _this.isInitialized = true; });
         };
@@ -59,6 +63,23 @@ var ViewerProduct = /** @class */ (function () {
                 defaultZoomScale: 0.49,
             });
             _this.viewer.start();
+        };
+        this.initSubmitForm = function () {
+            var Sku = window.Sku;
+            new Sku({
+                texture: _this.getUIViewTexture()
+            }, {
+                el: document.getElementById('sku'),
+                onTextureSelect: function (texutre) {
+                    console.log('texture', texutre);
+                },
+                onPartSelect: function (part) {
+                    console.log('part', part);
+                },
+                onSizeSelect: function (size) {
+                    console.log('size', size);
+                },
+            });
         };
         this.generateTextureData = function (items) {
             var data = items;
