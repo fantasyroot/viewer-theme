@@ -81,7 +81,7 @@
             {% form 'product', product, class:form_classes, novalidate: 'novalidate' %}
                 {% unless product.has_only_default_variant %}
                 {% for option in product.options_with_values %}
-                    <div class="selector-wrapper js product-form__item">
+                    <div class="selector-wrapper js product-form__item ch--hide">
                     <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
                         {{ option.name }}
                     </label>

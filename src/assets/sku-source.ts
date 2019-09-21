@@ -11,13 +11,13 @@ interface TextureData {
 }
 
 interface Part {
-    brandGoodsId: String;
     name: String;
+    img: String;
 }
 
 interface Size {
-    brandGoodsId: String;
     name: String;
+    img: String;
 }
 
 interface UIViewData {
@@ -39,7 +39,9 @@ interface Sku {
     Texture: {
         materialId: string;
         componentId: string;
-    }[]
+    }[];
+    Part?: String;
+    Size?: String;
 }
 
 interface Component {
@@ -70,12 +72,13 @@ interface BrandGood {
 interface OptionsData {
     Texture: OptionsDataTexture[];
 
-    [key: string]: String[] | OptionsDataTexture[];
+    [key: string]: OptionsDataTexture[];
 }
 
 interface OptionsDataTexture {
     title: String;
-    data: String[];
+    data?: String[];
+    image?: String;
 }
 
 interface CoohomProduct {
@@ -115,6 +118,8 @@ class ViewerProduct implements ViewProductInterface {
     sku: String;
     uiViewData: UIViewData;
     viewer: any;
+    size: String;
+    part: String;
     isInitialized: boolean = false;
 
     constructor(options: ViewProductOptions) {
@@ -132,7 +137,10 @@ class ViewerProduct implements ViewProductInterface {
                 // 获取当前sku
                 this.sku = (window as any).__VIEWER_INIT__.current.sku;
                 // 获取当前brandgoodid
-                this.brandGoodId = this.getBrandGoodIdBySku(this.sku);
+                const { brandGoodId, size, part } = this.getDefaultProductInfoBySku(this.sku);
+                this.brandGoodId = brandGoodId;
+                this.size = size;
+                this.part = part;
                 // 初始化viewer
                 this.initViewer();
             })
@@ -144,19 +152,32 @@ class ViewerProduct implements ViewProductInterface {
                     textures: []
                 };
                 this.uiViewData.textures = this.generateTextureData(optionsData.Texture);
+                if (options.includes('Part') && optionsData.Part) {
+                    this.uiViewData.parts = this.generatePartData(optionsData.Part);
+                }
+                if (options.includes('Size') && optionsData.Part) {
+                    this.uiViewData.sizes = this.generateSizeData(optionsData.Size);
+                }
             })
             .then(_ => {
+                // 初始化表单视图
                 this.initSubmitForm()
             })
             .then(_ => this.isInitialized = true)
     };
 
     resetModel = (brandGoodId: String) => {
-
+        this.brandGoodId = brandGoodId;
+        this.viewer.changeModel(brandGoodId);
     };
 
-    getBrandGoodIdBySku = (sku: String): string => {
-        return this.coohomProduct.skus.filter(item => item.sku === sku)[0].obsBrandGoodId;
+    getDefaultProductInfoBySku = (sku: String) => {
+        const brandGood: Sku = this.coohomProduct.skus.filter(item => item.sku === sku)[0];
+        return {
+            brandGoodId: brandGood.obsBrandGoodId,
+            size: brandGood.Size,
+            part: brandGood.Part
+        }
     };
 
     getSku = () => {
@@ -184,13 +205,13 @@ class ViewerProduct implements ViewProductInterface {
     initSubmitForm = () => {
         const Sku = (window as any).Sku;
         new Sku({
-            texture: this.getUIViewTexture()
+            texture: this.getUIViewTexture(),
+            part: this.getUIViewPart(),
+            size: this.getUIViewSize()
         }, {
             el: document.getElementById('sku'),
             onTextureSelect: (texutre: TextureData) => {
-                const { componentName, materialId  } = texutre;
-                const componentId = this.getComponentIdByComponentName(componentName);
-                this.viewer.changeMaterial(componentId, materialId)
+                this.changeMaterial(texutre);
             },
             onPartSelect: function (part) {
                 console.log('part', part);
@@ -223,6 +244,24 @@ class ViewerProduct implements ViewProductInterface {
         })
     };
 
+    generatePartData = (parts: OptionsDataTexture[]): Part[] => {
+        return parts.map(part => {
+            return {
+                name: part.title,
+                img: part.image
+            }
+        })
+    };
+
+    generateSizeData = (sizes: OptionsDataTexture[]): Size[] => {
+        return sizes.map(size => {
+            return {
+                name: size.title,
+                img: size.image
+            }
+        })
+    };
+
     getUIViewData = (): UIViewData => {
         return this.uiViewData;
     };
@@ -231,17 +270,31 @@ class ViewerProduct implements ViewProductInterface {
         return this.uiViewData.textures;
     };
 
+    getUIViewPart = () => {
+        return this.uiViewData.parts;
+    };
+
+    getUIViewSize = () => {
+        return this.uiViewData.sizes;
+    };
+
     getComponentIdByComponentName = (componentName: String) => {
         const bgid = this.brandGoodId;
         const brandGood = this.coohomProduct.brandGoods.filter(item => item.obsBrandGoodId === bgid)[0];
         const component = brandGood.components.filter(item => item.name === componentName)[0];
         return component && component.id;
     };
+
+    changeMaterial = (texutre: TextureData) => {
+        const { componentName, materialId  } = texutre;
+        const componentId = this.getComponentIdByComponentName(componentName);
+        this.viewer.changeMaterial(componentId, materialId);
+    }
 }
 
 const main = () => {
     const currentProductId = (window as any).__VIEWER_INIT__.product.id;
-    const viewerProduct = new ViewerProduct({
+    (window as any).viewerProduct = new ViewerProduct({
         productId: currentProductId
     });
 };
