@@ -46,7 +46,8 @@ function Sku(data, option) {
                 this.texture && this.texture.close();
                 this.part && this.part.close();
             }).bind(this),
-            List: SizeList,
+            // List: SizeList,
+            List: PartList,
         });
     }
     //
