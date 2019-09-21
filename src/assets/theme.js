@@ -3873,7 +3873,7 @@ $(document).ready(function() {
             arrows: false,
             fade: true,
             asNavFor: '.ch-slider-nav',
-            infinite: false,
+            // infinite: false,
             touchMove: true,
             dots: false,
         });
@@ -3883,7 +3883,7 @@ $(document).ready(function() {
             asNavFor: '.ch-slider-for',
             centerMode: true,
             focusOnSelect: true,
-            infinite: false,
+            // infinite: false,
             touchMove: true,
             dots: false,
         });

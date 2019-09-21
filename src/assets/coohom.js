@@ -5,45 +5,52 @@
  * @param {{ el: HTMLElement, onTextureSelect: (texture: any) => void, onPartSelect: (any) => void, onSizeSelect: (size: any) => void }} option
  */
 function Sku(data, option) {
-    this.texture = new SkuPanel(data.texture, {
-        parent: option.el,
-        title: 'Choose Texture',
-        index: '1',
-        open: true,
-        onItemSelect: option.onTextureSelect,
-        onOpen: (function () {
-            this.part.close();
-            this.size.close();
-        }).bind(this),
-        List: TextureList,
-    });
+    if (data.texture) {
+        this.texture = new SkuPanel(data.texture, {
+            parent: option.el,
+            title: 'Choose Texture',
+            index: '1',
+            open: true,
+            onItemSelect: option.onTextureSelect,
+            onOpen: (function () {
+                this.part && this.part.close();
+                this.size && this.size.close();
+            }).bind(this),
+            List: TextureList,
+        });
+    }
 
-    this.part = new SkuPanel(data.part, {
-        parent: option.el,
-        title: 'Choose Parts',
-        index: '2',
-        open: false,
-        onItemSelect: option.onPartSelect,
-        onOpen: (function () {
-            this.texture.close();
-            this.size.close();
-        }).bind(this),
-        List: PartList,
-    });
+    if (data.part) {
+        this.part = new SkuPanel(data.part, {
+            parent: option.el,
+            title: 'Choose Parts',
+            index: '2',
+            open: false,
+            onItemSelect: option.onPartSelect,
+            onOpen: (function () {
+                this.texture && this.texture.close();
+                this.size && this.size.close();
+            }).bind(this),
+            List: PartList,
+        });
+    }
 
-    this.size = new SkuPanel(data.size, {
-        parent: option.el,
-        title: 'Choose Size',
-        index: '3',
-        open: false,
-        onItemSelect: option.onSizeSelect,
-        onOpen: (function () {
-            this.texture.close();
-            this.part.close();
-        }).bind(this),
-        List: SizeList,
-    });
-
+    if (data.size) {
+        this.size = new SkuPanel(data.size, {
+            parent: option.el,
+            title: 'Choose Size',
+            index: '3',
+            open: false,
+            onItemSelect: option.onSizeSelect,
+            onOpen: (function () {
+                this.texture && this.texture.close();
+                this.part && this.part.close();
+            }).bind(this),
+            // List: SizeList,
+            List: PartList,
+        });
+    }
+    //
     this.texture.open();
 }
 
@@ -144,18 +151,25 @@ TextureList.prototype.render = function () {
         const wrapper = createElement('div', ['ch-drawer__row-wrapper']);
         row.appendChild(wrapper);
 
+        textureRow.nodes = [];
+
         const t = this;
         textureRow.data.forEach(function (d) {
             const item = createElement('div', ['ch-drawer__row-item']);
             wrapper.appendChild(item);
 
-            t.nodes.push({
+            // t.nodes.push({
+            //     data: d,
+            //     el: item,
+            // });
+
+            textureRow.nodes.push({
                 data: d,
                 el: item,
             });
 
             item.onclick = function () {
-                t.selectItem(d);
+                t.selectItem(d, textureRow);
             }
 
             const itemImg = createElement('div', ['ch-drawer__row-item-img']);
@@ -172,13 +186,15 @@ TextureList.prototype.render = function () {
 }
 
 TextureList.prototype.selectFirst = function () {
-    this.selectItem(this.list[0].data[0]);
+    for (const row of this.list) {
+        this.selectItem(row.data[0], row);
+    }
 }
 
-TextureList.prototype.selectItem = function (d) {
+TextureList.prototype.selectItem = function (d, textureRow) {
     this.option.onSelect(d);
 
-    for (const n of this.nodes) {
+    for (const n of textureRow.nodes) {
         if (n.data === d) {
             n.el.classList.add('ch-drawer__row-item--selected');
         } else {
