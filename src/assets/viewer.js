@@ -8,15 +8,20 @@
     window.viewer = new lucy.ViewerSDK({
         mount: document.getElementById('lucy-viewer'),
         modelId: '3FO4KN5SBXP9',
-        defaultZoomScale: 0.3,
+        defaultZoomScale: 0.5,
     });
     window.viewer.start();
 })(window.lucy);
 
 
 document.querySelectorAll('.ch-viewer__fullpage')[0].addEventListener('click', function() {
+    if (!window.viewer) return;
+
     window.viewer.setScreen(true);
-    window.viewer.setAutoRotate(true);
+    setTimeout(function() {
+         window.viewer.setAutoRotate(true);
+    }, 1200);
+
 });
 
 
