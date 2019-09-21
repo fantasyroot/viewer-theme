@@ -646,6 +646,7 @@ slate.Variants = (function() {
     this.originalSelectorId = options.originalSelectorId;
     this.enableHistoryState = options.enableHistoryState;
     this.currentVariant = this._getVariantFromOptions();
+    window.__VIEWER_INIT__.variant = this;
 
     $(this.singleOptionSelector, this.$container).on(
       'change',
@@ -714,8 +715,8 @@ slate.Variants = (function() {
     /**
      * Event handler for when a variant input changes.
      */
-    _onSelectChange: function() {
-      var variant = this._getVariantFromOptions();
+    _onSelectChange: function(variant) {
+      // var variant = this._getVariantFromOptions();
 
       this.$container.trigger({
         type: 'variantChange',
@@ -731,7 +732,7 @@ slate.Variants = (function() {
       this._updatePrice(variant);
       this._updateSKU(variant);
       this.currentVariant = variant;
-      
+
       console.log('variant change：', variant);
 
       if (this.enableHistoryState) {
@@ -3579,7 +3580,7 @@ theme.Product = (function() {
       // update form submit
       this._updateAddToCart(evt);
       // update live region
-      this._updateLiveRegion(evt);
+      // this._updateLiveRegion(evt);
 
       this._updatePrice(evt);
     },

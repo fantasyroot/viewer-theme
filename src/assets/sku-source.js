@@ -238,9 +238,10 @@ var ViewerProduct = /** @class */ (function () {
         this.generateSku = function () {
             var _a = _this, texture = _a.texture, size = _a.size, part = _a.part;
             var skuQuery = [texture.map(function (item) { return item.position; }).join('-'), part.position, size.position].join('-');
-            var sku = _this.coohomProduct.skuIndex[skuQuery];
-            _this.sku = sku;
-            return sku;
+            _this.sku = _this.coohomProduct.skuIndex[skuQuery];
+            var productInfo = window.productInfo;
+            var variant = productInfo.variants.filter(function (item) { return item.sku === _this.sku; })[0];
+            window.__VIEWER_INIT__.variant._onSelectChange(variant);
         };
         this.productId = options.productId;
         this.init();

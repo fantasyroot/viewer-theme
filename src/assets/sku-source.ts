@@ -379,11 +379,13 @@ class ViewerProduct implements ViewProductInterface {
     generateSku = () => {
         const { texture, size, part } = this;
         const skuQuery = [texture.map(item => item.position).join('-'), part.position, size.position].join('-');
-        const sku = this.coohomProduct.skuIndex[skuQuery];
-        this.sku = sku;
-        return sku;
+        this.sku = this.coohomProduct.skuIndex[skuQuery];
+        const productInfo = (window as any).productInfo;
+        const variant = productInfo.variants.filter(item => item.sku === this.sku )[0];
+        window.__VIEWER_INIT__.variant._onSelectChange(variant)
     }
 }
+
 
 const main = () => {
     const currentProductId = (window as any).__VIEWER_INIT__.product.id;
