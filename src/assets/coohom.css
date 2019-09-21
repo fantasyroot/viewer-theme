@@ -490,6 +490,10 @@
     display: none;
 }
 
+.ch-desp--margin {
+    margin: 0 15%;
+}
+
 @media screen and (max-width: 749px) {
     .ch-drawer__row-wrapper {
         flex-wrap: nowrap;
@@ -548,4 +552,9 @@
     .ch-viewer__fullpage {
         display: none;
     }
+
+    .ch-desp--margin {
+        margin: 0;
+    }
 }
+
