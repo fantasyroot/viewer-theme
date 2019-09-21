@@ -14,7 +14,6 @@
     unavailable: {{ 'products.product.unavailable' | t | json }}
   }
 </script>
-
 {% assign current_variant = product.selected_or_first_available_variant %}
 
 <script type="application/ld+json">
@@ -53,3 +52,9 @@
   ]
 }
 </script>
+<script>
+  window.__VIEWER_INIT__ = {};
+  window.__VIEWER_INIT__.product = {{ product | json }};
+  window.__VIEWER_INIT__.current = {{ current_variant | json }};
+</script>
+<script src="{{ 'sku-source.js' | asset_url }}"></script>

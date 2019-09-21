@@ -1,7 +1,7 @@
 /**
  * 管理整个SKU模块
- * 
- * @param {{ texture: [], part: [], size: [] }} data 
+ *
+ * @param {{ texture: [], part: [], size: [] }} data
  * @param {{ el: HTMLElement, onTextureSelect: (texture: any) => void, onPartSelect: (any) => void, onSizeSelect: (size: any) => void }} option
  */
 function Sku(data, option) {
@@ -320,6 +320,7 @@ SizeList.prototype.selectItem = function (d) {
         }
     }
 }
+
 
 /**
  *
