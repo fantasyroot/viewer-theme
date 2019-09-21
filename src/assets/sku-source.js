@@ -61,6 +61,7 @@ var ViewerProduct = /** @class */ (function () {
                 mount: document.getElementById('lucy-viewer'),
                 modelId: _this.brandGoodId,
                 defaultZoomScale: 0.49,
+                envRotation: 2.5
             });
             _this.viewer.start();
         };
