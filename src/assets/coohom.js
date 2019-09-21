@@ -1,7 +1,7 @@
 /**
  * 管理整个SKU模块
- * 
- * @param {{ texture: [], part: [], size: [] }} data 
+ *
+ * @param {{ texture: [], part: [], size: [] }} data
  * @param {{ el: HTMLElement, onTextureSelect: (texture: any) => void, onPartSelect: (any) => void, onSizeSelect: (size: any) => void }} option
  */
 function Sku(data, option) {
@@ -190,7 +190,7 @@ TextureList.prototype.selectItem = function (d) {
 /**
  * 管理部件的组件
  *
- * @param {{ name: string, img: string }[]} list
+ * @param {{ name: string, img: string }[]} part
  * @param {{ parent: HTMLElement, onSelect: (part: object) => void }} option
  */
 function PartList(list, option) {
@@ -321,6 +321,7 @@ SizeList.prototype.selectItem = function (d) {
     }
 }
 
+
 /**
  *
  *
@@ -440,6 +441,7 @@ function main() {
     });
 
     bindScroll();
+    initViewSelector();
 }
 
 function bindScroll() {
@@ -447,7 +449,7 @@ function bindScroll() {
         this.document.getElementById(anchor).onclick = function () {
             const el = document.getElementById(target);
             window.scrollTo({
-                top: el.getBoundingClientRect().top,
+                top: el.getBoundingClientRect().top + window.scrollY,
                 behavior: 'smooth',
             });
         }
@@ -456,6 +458,42 @@ function bindScroll() {
     scroll('ch-anchor-gallery', 'ch-target-gallery');
     scroll('ch-anchor-desp', 'ch-target-desp');
     scroll('ch-anchor-dimension', 'ch-target-dimension');
+}
+
+function initViewSelector() {
+    const selector = document.getElementById('ch-viewer__selector');
+    document.querySelectorAll('.ch-viewer__direction-item').forEach(function (el) {
+
+        const selectorSize = window.innerWidth > 749 ? 96 : 70;
+        el.onclick = function () {
+            // const selectorSize = selector.getBoundingClientRect().width;
+            const iconSize = el.getBoundingClientRect().width;
+
+            const left = el.offsetLeft - (selectorSize - iconSize) * 0.5;
+            selector.style.display = 'block';
+            selector.style.transform = 'translate(' + left + 'px, 0)';
+
+            // TODO: 视角点击 @yiqiao
+            if (el.classList.contains('ch-viewer__front')) {
+                // TODO: 正视图点击
+                console.log('front');
+            } else if (el.classList.contains('ch-viewer__top')) {
+                // TODO: 顶视图点击
+                console.log('top');
+            } else if (el.classList.contains('ch-viewer__side')) {
+                // TODO: 45度角点击
+                console.log('45deg');
+            } else if (el.classList.contains('ch-viewer__left')) {
+                // TODO: 侧视图点击
+                console.log('left');
+            }
+        }
+    })
+
+    document.querySelector('.ch-viewer__sign').onclick = function () {
+        selector.style.display = 'none';
+        window.viewer && window.viewer.setAutoRotate(true);
+    }
 }
 
 main();
