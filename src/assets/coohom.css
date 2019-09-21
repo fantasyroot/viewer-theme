@@ -318,6 +318,7 @@
     color: white;
     font-size: 18px;
     font-weight: bold;
+    border-width: 0;
 }
 
 .ch-cart-icon {
@@ -469,6 +470,7 @@
 
 .ch-slider-dots li button {
     font-size: 0px;
+    display: none;
 }
 
 .ch-price__sale-wrapper {
