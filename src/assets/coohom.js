@@ -151,18 +151,25 @@ TextureList.prototype.render = function () {
         const wrapper = createElement('div', ['ch-drawer__row-wrapper']);
         row.appendChild(wrapper);
 
+        textureRow.nodes = [];
+
         const t = this;
         textureRow.data.forEach(function (d) {
             const item = createElement('div', ['ch-drawer__row-item']);
             wrapper.appendChild(item);
 
-            t.nodes.push({
+            // t.nodes.push({
+            //     data: d,
+            //     el: item,
+            // });
+
+            textureRow.nodes.push({
                 data: d,
                 el: item,
             });
 
             item.onclick = function () {
-                t.selectItem(d);
+                t.selectItem(d, textureRow);
             }
 
             const itemImg = createElement('div', ['ch-drawer__row-item-img']);
@@ -179,13 +186,15 @@ TextureList.prototype.render = function () {
 }
 
 TextureList.prototype.selectFirst = function () {
-    this.selectItem(this.list[0].data[0]);
+    for (const row of this.list) {
+        this.selectItem(row.data[0], row);
+    }
 }
 
-TextureList.prototype.selectItem = function (d) {
+TextureList.prototype.selectItem = function (d, textureRow) {
     this.option.onSelect(d);
 
-    for (const n of this.nodes) {
+    for (const n of textureRow.nodes) {
         if (n.data === d) {
             n.el.classList.add('ch-drawer__row-item--selected');
         } else {
