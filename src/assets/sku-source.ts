@@ -67,6 +67,8 @@ interface BrandGood {
     };
     materials: Material[];
     designUrl: String;
+    Size: String;
+    Part: String;
 }
 
 interface OptionsData {
@@ -120,6 +122,7 @@ class ViewerProduct implements ViewProductInterface {
     viewer: any;
     size: String;
     part: String;
+    texture: TextureData[] = [];
     isInitialized: boolean = false;
 
     constructor(options: ViewProductOptions) {
@@ -166,11 +169,6 @@ class ViewerProduct implements ViewProductInterface {
             .then(_ => this.isInitialized = true)
     };
 
-    resetModel = (brandGoodId: String) => {
-        this.brandGoodId = brandGoodId;
-        this.viewer.changeModel(brandGoodId);
-    };
-
     getDefaultProductInfoBySku = (sku: String) => {
         const brandGood: Sku = this.coohomProduct.skus.filter(item => item.sku === sku)[0];
         return {
@@ -211,14 +209,52 @@ class ViewerProduct implements ViewProductInterface {
             el: document.getElementById('sku'),
             onTextureSelect: (texutre: TextureData) => {
                 this.changeMaterial(texutre);
+                const hasChangedTexture = this.texture.every(item => {
+                    if (item.materialId === texutre.materialId) {
+                        item = texutre;
+                        return true
+                    } else {
+                        return false
+                    }
+                });
+                if (!hasChangedTexture) {
+                    this.texture.push(texutre)
+                }
             },
-            onPartSelect: function (part) {
-                console.log('part', part);
+            onPartSelect: (part: {
+                name: String,
+                img: String
+            }) => {
+                const targetBrandGood = this.getTargetBrandGood({
+                    part: part.name
+                });
+                this.resetModel(targetBrandGood.obsBrandGoodId).then(_ => {
+                    this.texture.forEach(item => {
+                        this.changeMaterial(item)
+                    })
+                });
+                this.part = part.name
             },
-            onSizeSelect: function (size) {
-                console.log('size', size);
+            onSizeSelect: (size: {
+                name: String,
+                img: String
+            }) => {
+                const targetBrandGood = this.getTargetBrandGood({
+                    size: size.name
+                });
+                this.resetModel(targetBrandGood.obsBrandGoodId).then(_ => {
+                    this.texture.forEach(item => {
+                        this.changeMaterial(item)
+                    })
+                });
+                this.size = size.name
             },
         })
+    };
+
+    resetModel = (brandGoodId: String) => {
+        this.brandGoodId = brandGoodId;
+        return this.viewer.changeModel(brandGoodId);
     };
 
     generateTextureData = (items: OptionsDataTexture[]): Texture[] => {
@@ -277,6 +313,19 @@ class ViewerProduct implements ViewProductInterface {
         return this.uiViewData.sizes;
     };
 
+    getTargetBrandGood = (opt: {
+        size?: String;
+        part?: String;
+    }) => {
+        const currentInfo = {
+            size: this.size,
+            part: this.part
+        };
+        const targetInfo = Object.assign({}, currentInfo, opt);
+        const targetBrandGood = this.coohomProduct.brandGoods.filter(item => (item.Size === targetInfo.size) && (item.Part === targetInfo.part))
+        return targetBrandGood[0];
+    };
+
     getComponentIdByComponentName = (componentName: String) => {
         const bgid = this.brandGoodId;
         const brandGood = this.coohomProduct.brandGoods.filter(item => item.obsBrandGoodId === bgid)[0];
@@ -285,7 +334,7 @@ class ViewerProduct implements ViewProductInterface {
     };
 
     changeMaterial = (texutre: TextureData) => {
-        const { componentName, materialId  } = texutre;
+        const { componentName, materialId } = texutre;
         const componentId = this.getComponentIdByComponentName(componentName);
         this.viewer.changeMaterial(componentId, materialId);
     }

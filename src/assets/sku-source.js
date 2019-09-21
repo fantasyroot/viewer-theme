@@ -14,6 +14,7 @@ var getProductInfoFromCoohom = function (productId) {
 var ViewerProduct = /** @class */ (function () {
     function ViewerProduct(options) {
         var _this = this;
+        this.texture = [];
         this.isInitialized = false;
         this.init = function () {
             if (_this.isInitialized) {
@@ -53,10 +54,6 @@ var ViewerProduct = /** @class */ (function () {
             })
                 .then(function (_) { return _this.isInitialized = true; });
         };
-        this.resetModel = function (brandGoodId) {
-            _this.brandGoodId = brandGoodId;
-            _this.viewer.changeModel(brandGoodId);
-        };
         this.getDefaultProductInfoBySku = function (sku) {
             var brandGood = _this.coohomProduct.skus.filter(function (item) { return item.sku === sku; })[0];
             return {
@@ -91,14 +88,46 @@ var ViewerProduct = /** @class */ (function () {
                 el: document.getElementById('sku'),
                 onTextureSelect: function (texutre) {
                     _this.changeMaterial(texutre);
+                    var hasChangedTexture = _this.texture.every(function (item) {
+                        if (item.materialId === texutre.materialId) {
+                            item = texutre;
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    });
+                    if (!hasChangedTexture) {
+                        _this.texture.push(texutre);
+                    }
                 },
                 onPartSelect: function (part) {
-                    console.log('part', part);
+                    var targetBrandGood = _this.getTargetBrandGood({
+                        part: part.name
+                    });
+                    _this.resetModel(targetBrandGood.obsBrandGoodId).then(function (_) {
+                        _this.texture.forEach(function (item) {
+                            _this.changeMaterial(item);
+                        });
+                    });
+                    _this.part = part.name;
                 },
                 onSizeSelect: function (size) {
-                    console.log('size', size);
+                    var targetBrandGood = _this.getTargetBrandGood({
+                        size: size.name
+                    });
+                    _this.resetModel(targetBrandGood.obsBrandGoodId).then(function (_) {
+                        _this.texture.forEach(function (item) {
+                            _this.changeMaterial(item);
+                        });
+                    });
+                    _this.size = size.name;
                 },
             });
+        };
+        this.resetModel = function (brandGoodId) {
+            _this.brandGoodId = brandGoodId;
+            return _this.viewer.changeModel(brandGoodId);
         };
         this.generateTextureData = function (items) {
             var data = items;
@@ -148,6 +177,15 @@ var ViewerProduct = /** @class */ (function () {
         };
         this.getUIViewSize = function () {
             return _this.uiViewData.sizes;
+        };
+        this.getTargetBrandGood = function (opt) {
+            var currentInfo = {
+                size: _this.size,
+                part: _this.part
+            };
+            var targetInfo = Object.assign({}, currentInfo, opt);
+            var targetBrandGood = _this.coohomProduct.brandGoods.filter(function (item) { return (item.Size === targetInfo.size) && (item.Part === targetInfo.part); });
+            return targetBrandGood[0];
         };
         this.getComponentIdByComponentName = function (componentName) {
             var bgid = _this.brandGoodId;
