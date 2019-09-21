@@ -5,45 +5,51 @@
  * @param {{ el: HTMLElement, onTextureSelect: (texture: any) => void, onPartSelect: (any) => void, onSizeSelect: (size: any) => void }} option
  */
 function Sku(data, option) {
-    this.texture = new SkuPanel(data.texture, {
-        parent: option.el,
-        title: 'Choose Texture',
-        index: '1',
-        open: true,
-        onItemSelect: option.onTextureSelect,
-        onOpen: (function () {
-            this.part.close();
-            this.size.close();
-        }).bind(this),
-        List: TextureList,
-    });
+    if (data.texture) {
+        this.texture = new SkuPanel(data.texture, {
+            parent: option.el,
+            title: 'Choose Texture',
+            index: '1',
+            open: true,
+            onItemSelect: option.onTextureSelect,
+            onOpen: (function () {
+                this.part && this.part.close();
+                this.size && this.size.close();
+            }).bind(this),
+            List: TextureList,
+        });
+    }
 
-    this.part = new SkuPanel(data.part, {
-        parent: option.el,
-        title: 'Choose Parts',
-        index: '2',
-        open: false,
-        onItemSelect: option.onPartSelect,
-        onOpen: (function () {
-            this.texture.close();
-            this.size.close();
-        }).bind(this),
-        List: PartList,
-    });
+    if (data.part) {
+        this.part = new SkuPanel(data.part, {
+            parent: option.el,
+            title: 'Choose Parts',
+            index: '2',
+            open: false,
+            onItemSelect: option.onPartSelect,
+            onOpen: (function () {
+                this.texture && this.texture.close();
+                this.size && this.size.close();
+            }).bind(this),
+            List: PartList,
+        });
+    }
 
-    this.size = new SkuPanel(data.size, {
-        parent: option.el,
-        title: 'Choose Size',
-        index: '3',
-        open: false,
-        onItemSelect: option.onSizeSelect,
-        onOpen: (function () {
-            this.texture.close();
-            this.part.close();
-        }).bind(this),
-        List: SizeList,
-    });
-
+    if (data.size) {
+        this.size = new SkuPanel(data.size, {
+            parent: option.el,
+            title: 'Choose Size',
+            index: '3',
+            open: false,
+            onItemSelect: option.onSizeSelect,
+            onOpen: (function () {
+                this.texture && this.texture.close();
+                this.part && this.part.close();
+            }).bind(this),
+            List: SizeList,
+        });
+    }
+    //
     this.texture.open();
 }
 

@@ -483,6 +483,10 @@
     color: #1a7afb;
 }
 
+.ch--hide {
+    display: none;
+}
+
 @media screen and (max-width: 749px) {
     .ch-drawer__row-wrapper {
         flex-wrap: nowrap;
