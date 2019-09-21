@@ -128,6 +128,7 @@ class ViewerProduct implements ViewProductInterface {
         getProductInfoFromCoohom(this.productId)
             .then(coohomProduct => this.coohomProduct = coohomProduct)
             .then(_ => {
+                // 获取当前sku
                 this.sku = (window as any).__VIEWER_INIT__.current.sku;
                 // 获取当前brandgoodid
                 this.brandGoodId = this.getBrandGoodIdBySku(this.sku);
@@ -142,6 +143,9 @@ class ViewerProduct implements ViewProductInterface {
                     textures: []
                 };
                 this.uiViewData.textures = this.generateTextureData(optionsData.Texture);
+            })
+            .then(_ => {
+                this.initSubmitForm()
             })
             .then(_ => this.isInitialized = true)
     };
@@ -178,6 +182,24 @@ class ViewerProduct implements ViewProductInterface {
             (window as any).viewer.setScreen(true);
             (window as any).viewer.setAutoRotate(true);
         });
+    };
+
+    initSubmitForm = () => {
+        const Sku = (window as any).Sku;
+        new Sku({
+            texture: this.getUIViewTexture()
+        }, {
+            el: document.getElementById('sku'),
+            onTextureSelect: function (texutre) {
+                console.log('texture', texutre);
+            },
+            onPartSelect: function (part) {
+                console.log('part', part);
+            },
+            onSizeSelect: function (size) {
+                console.log('size', size);
+            },
+        })
     };
 
     generateTextureData = (items: OptionsDataTexture[]): Texture[] => {

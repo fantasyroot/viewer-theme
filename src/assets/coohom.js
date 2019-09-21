@@ -343,102 +343,102 @@ function createElement(tagName, classList, content) {
 }
 
 function main() {
-    window.sku = new Sku({
-        texture: [
-            {
-                title: '1.1 Sofa Body',
-                data: [
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                ],
-            }, {
-                title: '1.2 Seat Cushion',
-                data: [
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                    {
-                        name: 'Mist',
-                        img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
-                    },
-                ],
-            }
-        ],
-        part: [
-            { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
-            { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
-            { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
-            { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
-            { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
-            { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
-            { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
-            { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
-            { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
-        ],
-        size: [
-            { size: '86' },
-            { size: '86' },
-            { size: '86' },
-        ],
-    }, {
-        el: document.getElementById('sku'),
-        onTextureSelect: function (texutre) {
-            console.log('texture', texutre);
-        },
-        onPartSelect: function (part) {
-            console.log('part', part);
-        },
-        onSizeSelect: function (size) {
-            console.log('size', size);
-        },
-    });
+    // window.sku = new Sku({
+    //     texture: [
+    //         {
+    //             title: '1.1 Sofa Body',
+    //             data: [
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //             ],
+    //         }, {
+    //             title: '1.2 Seat Cushion',
+    //             data: [
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //                 {
+    //                     name: 'Mist',
+    //                     img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg',
+    //                 },
+    //             ],
+    //         }
+    //     ],
+    //     part: [
+    //         { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
+    //         { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
+    //         { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
+    //         { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
+    //         { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
+    //         { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
+    //         { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
+    //         { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
+    //         { name: 'Natural Oak', img: 'https://d2cquv6wfilehq.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/l/fleck_terra.jpg' },
+    //     ],
+    //     size: [
+    //         { size: '86' },
+    //         { size: '86' },
+    //         { size: '86' },
+    //     ],
+    // }, {
+    //     el: document.getElementById('sku'),
+    //     onTextureSelect: function (texutre) {
+    //         console.log('texture', texutre);
+    //     },
+    //     onPartSelect: function (part) {
+    //         console.log('part', part);
+    //     },
+    //     onSizeSelect: function (size) {
+    //         console.log('size', size);
+    //     },
+    // });
 
     bindScroll();
     initViewSelector();
