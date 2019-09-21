@@ -73,6 +73,9 @@
         </div>
         <div class="ch-info">
           	<h1 class="product-single__title">{{ product.title }}</h1>
+            {% assign current_variant = product.selected_or_first_available_variant %}
+            <span class="variant-sku">{{ current_variant.sku }}</span>
+            <script> window.productInfo = {{ product | json}}; </script>
             <div id="sku" class="ch-drawer-list"></div>
             <div class="product__price">{% include 'product-price', variant: current_variant %}</div>
             <button type="submit" class="ch-add-to-cart" id="AddToCart-{{ section.id }}">
