@@ -13,6 +13,7 @@ interface TextureData {
 interface Part {
     brandGoodsId: String;
     name: String;
+    img: String;
 }
 
 interface Size {
@@ -144,15 +145,20 @@ class ViewerProduct implements ViewProductInterface {
                     textures: []
                 };
                 this.uiViewData.textures = this.generateTextureData(optionsData.Texture);
+                if (options.includes('Part')) {
+                    this.uiViewData.parts = this.generatePartData(optionsData.Part);
+                }
             })
             .then(_ => {
+                // 初始化表单视图
                 this.initSubmitForm()
             })
             .then(_ => this.isInitialized = true)
     };
 
     resetModel = (brandGoodId: String) => {
-
+        this.brandGoodId = brandGoodId;
+        this.viewer.changeModel(brandGoodId);
     };
 
     getBrandGoodIdBySku = (sku: String): string => {
@@ -187,9 +193,7 @@ class ViewerProduct implements ViewProductInterface {
         }, {
             el: document.getElementById('sku'),
             onTextureSelect: (texutre: TextureData) => {
-                const { componentName, materialId  } = texutre;
-                const componentId = this.getComponentIdByComponentName(componentName);
-                this.viewer.changeMaterial(componentId, materialId)
+                this.changeMaterial(texutre);
             },
             onPartSelect: function (part) {
                 console.log('part', part);
@@ -222,6 +226,10 @@ class ViewerProduct implements ViewProductInterface {
         })
     };
 
+    generatePartData = (items: String[]) => {
+        
+    };
+
     getUIViewData = (): UIViewData => {
         return this.uiViewData;
     };
@@ -236,11 +244,17 @@ class ViewerProduct implements ViewProductInterface {
         const component = brandGood.components.filter(item => item.name === componentName)[0];
         return component && component.id;
     };
+
+    changeMaterial = (texutre: TextureData) => {
+        const { componentName, materialId  } = texutre;
+        const componentId = this.getComponentIdByComponentName(componentName);
+        this.viewer.changeMaterial(componentId, materialId);
+    }
 }
 
 const main = () => {
     const currentProductId = (window as any).__VIEWER_INIT__.product.id;
-    const viewerProduct = new ViewerProduct({
+    (window as any).viewerProduct = new ViewerProduct({
         productId: currentProductId
     });
 };

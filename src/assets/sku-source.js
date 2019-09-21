@@ -37,13 +37,19 @@ var ViewerProduct = /** @class */ (function () {
                     textures: []
                 };
                 _this.uiViewData.textures = _this.generateTextureData(optionsData.Texture);
+                if (options.includes('Part')) {
+                    _this.uiViewData.parts = _this.generatePartData(optionsData.Part);
+                }
             })
                 .then(function (_) {
+                // 初始化表单视图
                 _this.initSubmitForm();
             })
                 .then(function (_) { return _this.isInitialized = true; });
         };
         this.resetModel = function (brandGoodId) {
+            _this.brandGoodId = brandGoodId;
+            _this.viewer.changeModel(brandGoodId);
         };
         this.getBrandGoodIdBySku = function (sku) {
             return _this.coohomProduct.skus.filter(function (item) { return item.sku === sku; })[0].obsBrandGoodId;
@@ -71,9 +77,7 @@ var ViewerProduct = /** @class */ (function () {
             }, {
                 el: document.getElementById('sku'),
                 onTextureSelect: function (texutre) {
-                    var componentName = texutre.componentName, materialId = texutre.materialId;
-                    var componentId = _this.getComponentIdByComponentName(componentName);
-                    _this.viewer.changeMaterial(componentId, materialId);
+                    _this.changeMaterial(texutre);
                 },
                 onPartSelect: function (part) {
                     console.log('part', part);
@@ -104,6 +108,8 @@ var ViewerProduct = /** @class */ (function () {
                 };
             });
         };
+        this.generatePartData = function (items) {
+        };
         this.getUIViewData = function () {
             return _this.uiViewData;
         };
@@ -116,6 +122,11 @@ var ViewerProduct = /** @class */ (function () {
             var component = brandGood.components.filter(function (item) { return item.name === componentName; })[0];
             return component && component.id;
         };
+        this.changeMaterial = function (texutre) {
+            var componentName = texutre.componentName, materialId = texutre.materialId;
+            var componentId = _this.getComponentIdByComponentName(componentName);
+            _this.viewer.changeMaterial(componentId, materialId);
+        };
         this.productId = options.productId;
         this.init();
     }
@@ -123,7 +134,7 @@ var ViewerProduct = /** @class */ (function () {
 }());
 var main = function () {
     var currentProductId = window.__VIEWER_INIT__.product.id;
-    var viewerProduct = new ViewerProduct({
+    window.viewerProduct = new ViewerProduct({
         productId: currentProductId
     });
 };
