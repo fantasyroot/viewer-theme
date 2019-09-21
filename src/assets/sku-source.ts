@@ -208,24 +208,30 @@ class ViewerProduct implements ViewProductInterface {
             size: this.getUIViewSize()
         }, {
             el: document.getElementById('sku'),
-            onTextureSelect: (texutre: TextureData) => {
-                this.changeMaterial(texutre);
-                const hasChangedTexture = this.texture.every(item => {
-                    if (item.materialId === texutre.materialId) {
-                        item = texutre;
-                        return true
-                    } else {
-                        return false
+            onTextureSelect: (texture: TextureData, isIniting: boolean) => {
+                if (isIniting) {
+                    return
+                }
+                this.changeMaterial(texture);
+                let isChanged: boolean = false;
+                for(let i = 0; i < this.texture.length; i++) {
+                    if (this.texture[i].componentName === texture.componentName) {
+                        this.texture[i] = texture;
+                        isChanged = true
                     }
-                });
-                if (!hasChangedTexture) {
-                    this.texture.push(texutre)
+                }
+
+                if (!isChanged) {
+                    this.texture.push(texture)
                 }
             },
             onPartSelect: (part: {
                 name: String,
                 img: String
-            }) => {
+            }, isIniting: boolean) => {
+                if (isIniting) {
+                    return
+                }
                 const targetBrandGood = this.getTargetBrandGood({
                     part: part.name
                 });
@@ -239,7 +245,10 @@ class ViewerProduct implements ViewProductInterface {
             onSizeSelect: (size: {
                 name: String,
                 img: String
-            }) => {
+            }, isIniting: boolean) => {
+                if (isIniting) {
+                    return
+                }
                 const targetBrandGood = this.getTargetBrandGood({
                     size: size.name
                 });

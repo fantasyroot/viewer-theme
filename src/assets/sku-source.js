@@ -87,22 +87,26 @@ var ViewerProduct = /** @class */ (function () {
                 size: _this.getUIViewSize()
             }, {
                 el: document.getElementById('sku'),
-                onTextureSelect: function (texutre) {
-                    _this.changeMaterial(texutre);
-                    var hasChangedTexture = _this.texture.every(function (item) {
-                        if (item.materialId === texutre.materialId) {
-                            item = texutre;
-                            return true;
+                onTextureSelect: function (texture, isIniting) {
+                    if (isIniting) {
+                        return;
+                    }
+                    _this.changeMaterial(texture);
+                    var isChanged = false;
+                    for (var i = 0; i < _this.texture.length; i++) {
+                        if (_this.texture[i].componentName === texture.componentName) {
+                            _this.texture[i] = texture;
+                            isChanged = true;
                         }
-                        else {
-                            return false;
-                        }
-                    });
-                    if (!hasChangedTexture) {
-                        _this.texture.push(texutre);
+                    }
+                    if (!isChanged) {
+                        _this.texture.push(texture);
                     }
                 },
-                onPartSelect: function (part) {
+                onPartSelect: function (part, isIniting) {
+                    if (isIniting) {
+                        return;
+                    }
                     var targetBrandGood = _this.getTargetBrandGood({
                         part: part.name
                     });
@@ -113,7 +117,10 @@ var ViewerProduct = /** @class */ (function () {
                     });
                     _this.part = part.name;
                 },
-                onSizeSelect: function (size) {
+                onSizeSelect: function (size, isIniting) {
+                    if (isIniting) {
+                        return;
+                    }
                     var targetBrandGood = _this.getTargetBrandGood({
                         size: size.name
                     });
