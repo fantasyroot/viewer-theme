@@ -366,13 +366,19 @@
 .ch-carousel {
 }
 
-.ch-description {
+.ch-desp-content {
+  font-size: 16px;
+  text-align: center;
+  color: #3f3f37;
+}
+
+/* .ch-description {
     height: 600px;
 }
 
 .ch-dimension {
     height: 600px;
-}
+} */
 
 .ch-detail__h1 {
     margin: 0;
