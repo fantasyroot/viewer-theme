@@ -13,7 +13,11 @@
     "no-alert": 0,
     "no-console": 0,
     "no-new": 0,
-    "node/shebang": 0
+    "node/shebang": 0,
+    "indent-legacy": 0,
+    "no-var": 0,
+    "no-undef": 0,
+    "prefer-arrow-callback": 0
   },
   "globals": {
     "document": true,

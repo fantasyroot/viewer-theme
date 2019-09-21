@@ -2,6 +2,15 @@
 .ch-viewer__preview {
     height: 470px;
     background: #f7f7f7;
+    position: relative;
+}
+
+.ch-viewer__fullpage {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 22px;
+    cursor: pointer;
 }
 
 .ch-viewer__sign {
@@ -288,6 +297,7 @@
     max-width: 740px;
     flex: 1 1;
     margin-right: 80px;
+    position: relative;
 }
 
 .ch-info {
@@ -515,5 +525,9 @@
 
     .ch-viewer__preview {
         height: 302px;
+    }
+
+    .ch-viewer__fullpage {
+        display: none;
     }
 }

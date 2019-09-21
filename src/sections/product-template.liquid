@@ -55,6 +55,9 @@
       <div class="ch-product-info">
         <div class="ch-viewer">
             <div id="lucy-viewer" class="ch-viewer__preview"></div>
+            <div class="ch-viewer__fullpage">
+              <img src="//qhstaticssl.kujiale.com/newt/100317/image/png/1569027582639/0013F7733AEC06B480EB5D99B26405C7.png" alt="fullpage">
+            </div>
             <div class="ch-viewer__sign">
                 <i class="ch-viewer__arrow ch-viewer__arrow--left"></i>
                 <span class="ch-viewer__rotate">Auto Rotate</span>
@@ -476,19 +479,5 @@
 }
 {% endschema %}
 
-<script>
-  (function(lucy) {
-    if (!lucy) {
-      console.warn('"window.lucy" does not exist. Please ensure you\'ve added the <script> to your theme');
-      return;
-    }
-    var viewer = new lucy.ViewerSDK({
-      mount: document.getElementById('lucy-viewer'),
-      modelId: '3FO4HA05GL4P',
-      isSit: true
-    });
-    viewer.start();
-  })(window.lucy);
-</script>
-
 <script src="{{ 'coohom.js' | asset_url }}"></script>
+<script src="{{ 'viewer.js' | asset_url }}"></script>
