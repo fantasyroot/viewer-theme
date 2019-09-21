@@ -11,7 +11,7 @@
 
 {%- assign money_price = price | money -%}
 
-<dl class="price{% if available and compare_at_price > price %} price--on-sale{% endif %}" data-price>
+<dl class="ch-price__sale-wrapper price{% if available and compare_at_price > price %} price--on-sale{% endif %}" data-price>
 
   {% if section.settings.show_vendor %}
     <div class="price__vendor">
@@ -42,7 +42,7 @@
       </span>
     </dd>
   </div>
-  <div class="price__sale">
+  <div class="price__sale ch-price__sale">
     <dt>
       <span class="visually-hidden visually-hidden--inline">{{ 'products.product.sale_price' | t }}</span>
     </dt>
