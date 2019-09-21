@@ -469,6 +469,10 @@
     margin-top: 22px;
 }
 
+.ch--no-padding {
+    padding: 0;
+}
+
 .ch-price__sale {
     color: #1a7afb;
 }
