@@ -175,7 +175,7 @@ TextureList.prototype.render = function () {
             const itemImg = createElement('div', ['ch-drawer__row-item-img']);
             item.appendChild(itemImg);
             const img = createElement('img', []);
-            img.src = d.img;
+            img.src = d.img + '?x-oss-process=image/resize,m_lfit,h_144,w_144';
             itemImg.appendChild(img);
             const icon = createElement('div', ['ch-drawer__row-item-selected-icon']);
             itemImg.appendChild(icon);
@@ -249,7 +249,7 @@ PartList.prototype.render = function () {
         const itemImg = createElement('div', ['ch-drawer__row-item-img']);
         item.appendChild(itemImg);
         const img = createElement('img', []);
-        img.src = d.img;
+        img.src = d.img + '?x-oss-process=image/resize,m_lfit,h_144,w_144';
         itemImg.appendChild(img);
         const icon = createElement('div', ['ch-drawer__row-item-selected-icon']);
         itemImg.appendChild(icon);
