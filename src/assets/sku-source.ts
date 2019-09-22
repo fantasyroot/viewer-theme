@@ -129,6 +129,7 @@ class ViewerProduct implements ViewProductInterface {
     part?: Part;
     texture: TextureData[] = [];
     isInitialized: boolean = false;
+    isChangingModel: boolean = false;
 
     constructor(options: ViewProductOptions) {
         this.productId = options.productId;
@@ -292,9 +293,14 @@ class ViewerProduct implements ViewProductInterface {
     };
 
     resetModel = (brandGoodId: String) => {
+        if (this.isChangingModel) {
+            return ;
+        }
+        this.isChangingModel = true;
         this.brandGoodId = brandGoodId;
-        return this.viewer.changeModel(brandGoodId);
+        return this.viewer.changeModel(brandGoodId).then(_ => this.isChangingModel = false);
     };
+
 
     generateTextureData = (items: OptionsDataTexture[]): Texture[] => {
         const data = items;

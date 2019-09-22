@@ -27,6 +27,7 @@ var ViewerProduct = /** @class */ (function () {
         var _this = this;
         this.texture = [];
         this.isInitialized = false;
+        this.isChangingModel = false;
         this.init = function () {
             if (_this.isInitialized) {
                 return;
@@ -166,8 +167,12 @@ var ViewerProduct = /** @class */ (function () {
             });
         };
         this.resetModel = function (brandGoodId) {
+            if (_this.isChangingModel) {
+                return;
+            }
+            _this.isChangingModel = true;
             _this.brandGoodId = brandGoodId;
-            return _this.viewer.changeModel(brandGoodId);
+            return _this.viewer.changeModel(brandGoodId).then(function (_) { return _this.isChangingModel = false; });
         };
         this.generateTextureData = function (items) {
             var data = items;
