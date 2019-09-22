@@ -108,9 +108,15 @@ const getProductInfoFromCoohom = (productId: String): Promise<CoohomProduct> => 
 
 interface ViewProductInterface {
     productId: String;
-
+    brandGoodId: String;
+    sku: String;
+    init: () => Promise<boolean>;
     getUIViewData: () => UIViewData; // get ui data
-    // resetModel: (brandGoodId: String) => void;
+    getUIViewTexture: () => Texture[];
+    getUIViewPart: () => Part[] | undefined;
+    getUIViewSize: () => Size[] | undefined;
+    getSku: () => String;
+    getCoohomProduct: () => CoohomProduct;
 
 }
 
@@ -120,27 +126,27 @@ interface ViewProductOptions {
 
 class ViewerProduct implements ViewProductInterface {
     productId: String;
-    coohomProduct: CoohomProduct;
+    private coohomProduct: CoohomProduct;
     brandGoodId: String;
     sku: String;
-    uiViewData: UIViewData;
-    viewer: any;
-    size?: Size;
-    part?: Part;
-    texture: TextureData[] = [];
-    isInitialized: boolean = false;
-    isChangingModel: boolean = false;
+    private uiViewData: UIViewData;
+    private viewer: any;
+    private size?: Size;
+    private part?: Part;
+    private texture: TextureData[] = [];
+    private isInitialized: boolean = false;
+    private isChangingModel: boolean = false;
 
     constructor(options: ViewProductOptions) {
         this.productId = options.productId;
         this.init();
     }
 
-    init = () => {
+    init = ():Promise<boolean> => {
         if (this.isInitialized) {
-            return
+            return;
         }
-        getProductInfoFromCoohom(this.productId)
+        return getProductInfoFromCoohom(this.productId)
             .then(coohomProduct => this.coohomProduct = coohomProduct)
             .then(_ => {
                 // 获取当前sku
@@ -171,12 +177,19 @@ class ViewerProduct implements ViewProductInterface {
             })
             .then(_ => {
                 // 初始化表单视图
-                this.initSubmitForm()
+                this.initSubmitForm();
             })
-            .then(_ => this.isInitialized = true)
+            .then(_ => {
+                this.isInitialized = true;
+                return this.isInitialized;
+            })
+            .catch(e => {
+                console.error('Viewer Init Error:' + e);
+                return false;
+            })
     };
 
-    getDefaultProductInfoBySku = (sku: String) => {
+    private getDefaultProductInfoBySku = (sku: String) => {
         const brandGood: Sku = this.coohomProduct.skus.filter(item => item.sku === sku)[0];
         const optionsData = this.coohomProduct['options-data'];
         const options = Object.keys(optionsData);
@@ -212,7 +225,27 @@ class ViewerProduct implements ViewProductInterface {
         return this.sku;
     };
 
-    initViewer = () => {
+    getCoohomProduct = () => {
+        return this.coohomProduct;
+    };
+
+    getUIViewData = (): UIViewData => {
+        return this.uiViewData;
+    };
+
+    getUIViewTexture = (): Texture[] => {
+        return this.uiViewData.textures;
+    };
+
+    getUIViewPart = () => {
+        return this.uiViewData.parts;
+    };
+
+    getUIViewSize = () => {
+        return this.uiViewData.sizes;
+    };
+
+    private initViewer = () => {
         const lucy = (window as any).lucy;
         if (!lucy) {
             console.warn(
@@ -231,7 +264,7 @@ class ViewerProduct implements ViewProductInterface {
         this.viewer.start();
     };
 
-    initSubmitForm = () => {
+    private initSubmitForm = () => {
         const Sku = (window as any).Sku;
         new Sku({
             texture: this.getUIViewTexture(),
@@ -292,17 +325,19 @@ class ViewerProduct implements ViewProductInterface {
         })
     };
 
-    resetModel = (brandGoodId: String) => {
+    private resetModel = (brandGoodId: String) => {
         if (this.isChangingModel) {
             return ;
         }
         this.isChangingModel = true;
         this.brandGoodId = brandGoodId;
-        return this.viewer.changeModel(brandGoodId).then(_ => this.isChangingModel = false);
+        return this.viewer.changeModel(brandGoodId).then(_ => {
+            this.isChangingModel = false;
+        });
     };
 
 
-    generateTextureData = (items: OptionsDataTexture[]): Texture[] => {
+    private generateTextureData = (items: OptionsDataTexture[]): Texture[] => {
         const data = items;
         const materials = this.coohomProduct.brandGoods[0].materials;
         return data.map((optionsDataTexture, index) => {
@@ -326,7 +361,7 @@ class ViewerProduct implements ViewProductInterface {
         })
     };
 
-    generatePartData = (parts: OptionsDataTexture[]): Part[] => {
+    private generatePartData = (parts: OptionsDataTexture[]): Part[] => {
         return parts.map((part, index) => {
             return {
                 name: part.title,
@@ -336,7 +371,7 @@ class ViewerProduct implements ViewProductInterface {
         })
     };
 
-    generateSizeData = (sizes: OptionsDataTexture[]): Size[] => {
+    private generateSizeData = (sizes: OptionsDataTexture[]): Size[] => {
         return sizes.map((size, index) => {
             return {
                 name: size.title,
@@ -346,23 +381,7 @@ class ViewerProduct implements ViewProductInterface {
         })
     };
 
-    getUIViewData = (): UIViewData => {
-        return this.uiViewData;
-    };
-
-    getUIViewTexture = (): Texture[] => {
-        return this.uiViewData.textures;
-    };
-
-    getUIViewPart = () => {
-        return this.uiViewData.parts;
-    };
-
-    getUIViewSize = () => {
-        return this.uiViewData.sizes;
-    };
-
-    getTargetBrandGood = (opt: {
+    private getTargetBrandGood = (opt: {
         size?: String;
         part?: String;
     }) => {
@@ -371,24 +390,24 @@ class ViewerProduct implements ViewProductInterface {
             part: this.part.name
         };
         const targetInfo = Object.assign({}, currentInfo, opt);
-        const targetBrandGood = this.coohomProduct.brandGoods.filter(item => (item.Size === targetInfo.size) && (item.Part === targetInfo.part))
+        const targetBrandGood = this.coohomProduct.brandGoods.filter(item => (item.Size === targetInfo.size) && (item.Part === targetInfo.part));
         return targetBrandGood[0];
     };
 
-    getComponentIdByComponentName = (componentName: String) => {
+    private getComponentIdByComponentName = (componentName: String) => {
         const bgid = this.brandGoodId;
         const brandGood = this.coohomProduct.brandGoods.filter(item => item.obsBrandGoodId === bgid)[0];
         const component = brandGood.components.filter(item => item.name === componentName)[0];
         return component && component.id;
     };
 
-    changeMaterial = (texutre: TextureData) => {
+    private changeMaterial = (texutre: TextureData) => {
         const { componentName, materialId } = texutre;
         const componentId = this.getComponentIdByComponentName(componentName);
-        this.viewer.changeMaterial(componentId, materialId);
+        this.viewer.changeMaterial(componentId, materialId)
     };
 
-    generateSku = () => {
+    private generateSku = () => {
         const { texture, size, part } = this;
         const skuQuery = texture.map(item => item.position).join('-') + (part ? `-${part.position}`: '') + (size ? `-${size.position}` : '');
         this.sku = this.coohomProduct.skuIndex[skuQuery];

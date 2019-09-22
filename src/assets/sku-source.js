@@ -32,7 +32,7 @@ var ViewerProduct = /** @class */ (function () {
             if (_this.isInitialized) {
                 return;
             }
-            getProductInfoFromCoohom(_this.productId)
+            return getProductInfoFromCoohom(_this.productId)
                 .then(function (coohomProduct) { return _this.coohomProduct = coohomProduct; })
                 .then(function (_) {
                 // 获取当前sku
@@ -65,7 +65,14 @@ var ViewerProduct = /** @class */ (function () {
                 // 初始化表单视图
                 _this.initSubmitForm();
             })
-                .then(function (_) { return _this.isInitialized = true; });
+                .then(function (_) {
+                _this.isInitialized = true;
+                return _this.isInitialized;
+            })
+                .catch(function (e) {
+                console.error('Viewer Init Error:' + e);
+                return false;
+            });
         };
         this.getDefaultProductInfoBySku = function (sku) {
             var brandGood = _this.coohomProduct.skus.filter(function (item) { return item.sku === sku; })[0];
@@ -96,6 +103,21 @@ var ViewerProduct = /** @class */ (function () {
         };
         this.getSku = function () {
             return _this.sku;
+        };
+        this.getCoohomProduct = function () {
+            return _this.coohomProduct;
+        };
+        this.getUIViewData = function () {
+            return _this.uiViewData;
+        };
+        this.getUIViewTexture = function () {
+            return _this.uiViewData.textures;
+        };
+        this.getUIViewPart = function () {
+            return _this.uiViewData.parts;
+        };
+        this.getUIViewSize = function () {
+            return _this.uiViewData.sizes;
         };
         this.initViewer = function () {
             var lucy = window.lucy;
@@ -172,7 +194,9 @@ var ViewerProduct = /** @class */ (function () {
             }
             _this.isChangingModel = true;
             _this.brandGoodId = brandGoodId;
-            return _this.viewer.changeModel(brandGoodId).then(function (_) { return _this.isChangingModel = false; });
+            return _this.viewer.changeModel(brandGoodId).then(function (_) {
+                _this.isChangingModel = false;
+            });
         };
         this.generateTextureData = function (items) {
             var data = items;
@@ -214,18 +238,6 @@ var ViewerProduct = /** @class */ (function () {
                     position: "3_" + (index + 1)
                 };
             });
-        };
-        this.getUIViewData = function () {
-            return _this.uiViewData;
-        };
-        this.getUIViewTexture = function () {
-            return _this.uiViewData.textures;
-        };
-        this.getUIViewPart = function () {
-            return _this.uiViewData.parts;
-        };
-        this.getUIViewSize = function () {
-            return _this.uiViewData.sizes;
         };
         this.getTargetBrandGood = function (opt) {
             var currentInfo = {
