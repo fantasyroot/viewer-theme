@@ -11,6 +11,11 @@
     top: 20px;
     width: 22px;
     cursor: pointer;
+    display: none;
+}
+
+.ch-viewer__fullpage.pc {
+    display: block;
 }
 
 .ch-viewer__sign {
@@ -610,10 +615,6 @@
 
     .ch-viewer__preview {
         height: 302px;
-    }
-
-    .ch-viewer__fullpage {
-        display: none;
     }
 
     .ch-desp--margin {
