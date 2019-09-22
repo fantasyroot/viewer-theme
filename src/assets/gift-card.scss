@@ -35,20 +35,20 @@ $grid-breakpoint-has-push: ($small, $medium-up);
 $color-text: #3d4246;
 $color-text-shadow: rgba(0,0,0,0.4);
 $color-body-text: #69727b;
-$color-sale-text: #557B97;
+$color-sale-text: #557b97;
 $color-small-button-text-border: #3d4246;
 $color-text-field: #fff;
 $color-text-field-text: #000;
 $color-navigation-text: #3d4246;
 
 // Button colors
-$color-btn-primary: #557B97;
+$color-btn-primary: #557b97;
 $color-btn-primary-text: #fff;
 
 // Hover and focus states
 $color-text-focus: adaptiveColor(#3d4246, 64.96);
 $color-overlay-text-focus: adaptiveColor(#fff, 255.0);
-$color-btn-primary-focus: adaptiveColor(#557B97, 114.83);
+$color-btn-primary-focus: adaptiveColor(#557b97, 114.83);
 $color-btn-social-focus: adaptiveColor(#e8e9eb, 232.93);
 $color-small-button-text-border-focus: adaptiveColor(#3d4246, 64.96);
 
@@ -124,7 +124,7 @@ $z-index-announcement-bar: 10;
 $z-index-skip-to-content: 10000; // really high to be safe of app markup
 
 /*================ SVG ================*/
-$svg-select-icon: #{'//cdn.shopify.com/s/files/1/0074/8614/4567/t/1/assets/ico-select.svg?77'};
+$svg-select-icon: #{'//cdn.shopify.com/s/files/1/0074/8614/4567/t/2/assets/ico-select.svg?4498'};
 
 /*================ Drawers ================*/
 $transition-drawer: all 0.45s cubic-bezier(0.29, 0.63, 0.44, 1);

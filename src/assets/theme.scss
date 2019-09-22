@@ -338,20 +338,20 @@ $grid-breakpoint-has-push: ($small, $medium-up);
 $color-text: #3d4246;
 $color-text-shadow: rgba(0,0,0,0.4);
 $color-body-text: #69727b;
-$color-sale-text: #557B97;
+$color-sale-text: #557b97;
 $color-small-button-text-border: #3d4246;
 $color-text-field: #fff;
 $color-text-field-text: #000;
 $color-navigation-text: #3d4246;
 
 // Button colors
-$color-btn-primary: #557B97;
+$color-btn-primary: #557b97;
 $color-btn-primary-text: #fff;
 
 // Hover and focus states
 $color-text-focus: adaptiveColor(#3d4246, 64.96);
 $color-overlay-text-focus: adaptiveColor(#fff, 255.0);
-$color-btn-primary-focus: adaptiveColor(#557B97, 114.83);
+$color-btn-primary-focus: adaptiveColor(#557b97, 114.83);
 $color-btn-social-focus: adaptiveColor(#e8e9eb, 232.93);
 $color-small-button-text-border-focus: adaptiveColor(#3d4246, 64.96);
 
@@ -427,7 +427,7 @@ $z-index-announcement-bar: 10;
 $z-index-skip-to-content: 10000; // really high to be safe of app markup
 
 /*================ SVG ================*/
-$svg-select-icon: #{'//cdn.shopify.com/s/files/1/0074/8614/4567/t/1/assets/ico-select.svg?77'};
+$svg-select-icon: #{'//cdn.shopify.com/s/files/1/0074/8614/4567/t/2/assets/ico-select.svg?4498'};
 
 /*================ Drawers ================*/
 $transition-drawer: all 0.45s cubic-bezier(0.29, 0.63, 0.44, 1);
@@ -542,7 +542,7 @@ $slick-opacity-not-active: 0.25;
 
 // Only called once so make sure proper file is grabbed
 @function slick-image-url($url) {
-  @return url(//cdn.shopify.com/s/files/1/0074/8614/4567/t/1/assets/ajax-loader.gif?77);
+  @return url(//cdn.shopify.com/s/files/1/0074/8614/4567/t/2/assets/ajax-loader.gif?4498);
 }
 
 // Unused intentionally
@@ -7080,4 +7080,49 @@ $transition-controls-video: color 0.2s $ease-transition, background-color 0.2s $
   height: 100%;
   top: 0;
   z-index: 2;
+  }
+
+    .product-recommendations {
+    padding-top: $section-spacing-small;
+    padding-bottom: $section-spacing-small;
+
+    @include media-query($medium-up) {
+      padding-top: $section-spacing;
+      padding-bottom: $section-spacing;
+    }
+  }
+  .product-recommendations__loading-dots {
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .product-recommendations__loading-dot {
+    animation: dot-keyframes 1.5s infinite ease-in-out;
+    background-color: $color-text;
+    border-radius: 10px;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    margin: 0 3px;
+    &:nth-child(2) {
+      animation-delay: .5s;
+    }
+    &:nth-child(3) {
+      animation-delay: 1s;
+    }
+  }
+  @keyframes dot-keyframes {
+    0% {
+      opacity: .4;
+      transform: scale(1, 1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2, 1.2);
+    }
+    100% {
+      opacity: .4;
+      transform: scale(1, 1);
+    }
   }
