@@ -128,7 +128,9 @@ var ViewerProduct = /** @class */ (function () {
             _this.viewer = window.viewer = new lucy.ViewerSDK({
                 mount: document.getElementById('lucy-viewer'),
                 modelId: _this.brandGoodId,
-                defaultZoomScale: 0.49
+                defaultZoomScale: 0.49,
+                useCoohomCDN: true,
+                locale: 'en_US'
             });
             _this.viewer.start();
         };

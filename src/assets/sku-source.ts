@@ -256,7 +256,9 @@ class ViewerProduct implements ViewProductInterface {
         this.viewer = (window as any).viewer = new lucy.ViewerSDK({
             mount: document.getElementById('lucy-viewer'),
             modelId: this.brandGoodId,
-            defaultZoomScale: 0.49
+            defaultZoomScale: 0.49,
+            useCoohomCDN: true,
+            locale: 'en_US'
         });
 
         this.viewer.start();
