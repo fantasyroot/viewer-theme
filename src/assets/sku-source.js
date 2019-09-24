@@ -129,7 +129,7 @@ var ViewerProduct = /** @class */ (function () {
                 mount: document.getElementById('lucy-viewer'),
                 modelId: _this.brandGoodId,
                 defaultZoomScale: 0.49,
-                useCoohomCDN: true,
+                useCoohomCDN: location.hostname !== 'shop.coohom.com',
                 locale: 'en_US'
             });
             _this.viewer.start();

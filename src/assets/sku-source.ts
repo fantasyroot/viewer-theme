@@ -257,7 +257,7 @@ class ViewerProduct implements ViewProductInterface {
             mount: document.getElementById('lucy-viewer'),
             modelId: this.brandGoodId,
             defaultZoomScale: 0.49,
-            useCoohomCDN: true,
+            useCoohomCDN: location.hostname !== 'shop.coohom.com',
             locale: 'en_US'
         });
 
