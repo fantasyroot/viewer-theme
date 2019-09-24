@@ -3957,3 +3957,26 @@ theme.ProductRecommendations = (function () {
     }
     return ProductRecommendations;
 })();
+
+// coohom viewer modify start
+$(function() {
+   $.ajax({
+      url: 'https://tbip.alicdn.com/api/getipinfo',
+      type: 'GET',
+      dataType: 'jsonp',
+      jsonp: 'callback',
+      jsonpCallback: 'jsonpCallback',
+      success: function(data) {
+          if (data.code !== 0) return;
+
+          if (data.data.country_id === 'CN') {
+            if (location.hostname !== 'shop.coohom.com') {
+              location.href = location.href.replace(location.hostname, 'shop.coohom.com');
+            }
+          } else if (location.hostname === 'shop.coohom.com') {
+            location.href = location.href.replace(location.hostname, 'store.coohom.com');
+          }
+      }
+  });
+});
+// coohom viewer modify end
